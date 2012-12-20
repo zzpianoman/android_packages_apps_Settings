@@ -15,6 +15,10 @@
     <!-- Privacy Guard -->
     <string name="app_security_title">App security</string>
 
+    <!-- About device screen, CPU and RAM info. -->
+    <string name="cpu_info">CPU</string>
+    <string name="mem_info">Memory</string>
+
     <!-- General strings -->
     <string name="attention">Attention</string>
 
