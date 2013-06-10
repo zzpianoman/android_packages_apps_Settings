@@ -630,7 +630,6 @@ public class InstalledAppDetails extends Fragment
         TextView packageName = (TextView) appSnippet.findViewById(R.id.app_pkgname);
         packageName.setText(mAppEntry.info.packageName);
         packageName.setVisibility(View.VISIBLE);
-
         // Version number of application
         mAppVersion = (TextView) appSnippet.findViewById(R.id.app_size);
 
