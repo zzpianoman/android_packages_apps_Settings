@@ -52,6 +52,11 @@
     <string name="media_scanner_on_boot_ask">Ask to scan (notification)</string>
     <string name="media_scanner_on_boot_disabled">Do not scan media</string>
 
+    <!-- Status bar | Clock -->
+    <string name="status_bar_toggle_brightness">Brightness control</string>
+    <string name="status_bar_toggle_brightness_summary">Adjust brightness by sliding across status bar</string>
+    <string name="status_bar_toggle_info">Automatic brightness is enabled</string>
+
     <!-- QuickSettings: Quick Pulldown -->
     <string name="qs_title">Quick settings</string>
     <string name="title_quick_pulldown">Quick pulldown</string>
