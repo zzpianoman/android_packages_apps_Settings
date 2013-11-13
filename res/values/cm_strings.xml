@@ -146,4 +146,7 @@
     <string name="live_display_enhance_color_title">Enhance colors</string>
     <string name="live_display_enhance_color_summary">Improve color vibrance of flesh tones, scenery, and other images</string>
 
+    <!-- Setting checkbox summary for displaying USB debugging notification -->
+    <string name="adb_notify">USB debugging notify</string>
+    <string name="adb_notify_summary">Display a notification when USB debugging is connected</string>
 </resources>
