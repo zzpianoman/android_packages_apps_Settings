@@ -62,6 +62,12 @@
             android:fragment="com.android.settings.applications.ProcessStatsUi">
     </PreferenceScreen>
 
+    <!-- Wakelock Blocker -->
+    <PreferenceScreen
+        android:key="wakelock_blocker"
+        android:fragment="com.android.settings.crdroid.WakeLockBlocker"
+        android:title="@string/wakelock_blocker" />
+
     <PreferenceCategory android:key="debug_debugging_category"
             android:title="@string/debug_debugging_category">
 
