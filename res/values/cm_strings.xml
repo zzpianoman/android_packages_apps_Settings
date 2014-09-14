@@ -31,4 +31,8 @@
     <string name="lockscreen_vibrate_enabled_title">Vibrate</string>
     <string name="lockscreen_vibrate_enabled_head">Vibrate when unlocking</string>
 
+    <!-- tap-to-sleep -->
+    <string name="double_tap_to_sleep_title">Double-tap to sleep</string>
+    <string name="double_tap_to_sleep_summary">Double tap status bar or lock screen slider to put the device to sleep</string>
+
 </resources>
