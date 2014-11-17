@@ -27,4 +27,7 @@
     <string name="recents_privacy_prefs_header_title">Select apps to hide</string>
     <string name="recents_privacy_prefs_header_text">Hidden apps will show as a blank card in the recents stack</string>
 
+    <!-- Expanded Desktop -->
+    <string name="expanded_disabled">Disabled</string>
+
 </resources>

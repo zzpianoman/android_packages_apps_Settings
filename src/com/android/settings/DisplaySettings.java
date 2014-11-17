@@ -23,6 +23,7 @@ import com.android.settings.DropDownPreference.Callback;
 import com.android.settings.search.BaseSearchIndexProvider;
 import com.android.settings.search.Indexable;
 
+import static android.provider.Settings.Global.POLICY_CONTROL;
 import static android.provider.Settings.Secure.CAMERA_DOUBLE_TAP_POWER_GESTURE_DISABLED;
 import static android.provider.Settings.Secure.CAMERA_GESTURE_DISABLED;
 import static android.provider.Settings.Secure.DOUBLE_TAP_TO_WAKE;
@@ -95,6 +96,12 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
     private static final String KEY_DISPLAY_ROTATION = "display_rotation";
     private static final String KEY_WAKE_WHEN_PLUGGED_OR_UNPLUGGED = "wake_when_plugged_or_unplugged";
 
+    private static final String KEY_EXPANDED_DESKTOP_STYLE = "expanded_desktop_style";
+    private static final int STATE_DISABLED = 0;
+    private static final int STATE_STATUS_HIDDEN = 1;
+    private static final int STATE_NAVIGATION_HIDDEN = 2;
+    private static final int STATE_BOTH_HIDDEN = 3;
+
     private static final String CATEGORY_ADVANCED = "advanced_display_prefs";
 
     private static final int DLG_GLOBAL_CHANGE_WARNING = 1;
@@ -104,6 +111,7 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
 
     private final Configuration mCurConfig = new Configuration();
 
+    private ListPreference mExpandedDesktopStylePref;
     private ListPreference mScreenTimeoutPreference;
     private ListPreference mNightModePreference;
     private Preference mScreenSaverPreference;
@@ -224,6 +232,10 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
             mNightModePreference.setValue(String.valueOf(currentNightMode));
             mNightModePreference.setOnPreferenceChangeListener(this);
         }
+        // Expanded desktop
+        mExpandedDesktopStylePref = (ListPreference) findPreference(KEY_EXPANDED_DESKTOP_STYLE);
+        updateExpandedDesktopStyle(getExpandedDesktopStyle());
+        mExpandedDesktopStylePref.setOnPreferenceChangeListener(this);
 
         PreferenceScreen advancedPrefs = (PreferenceScreen) findPreference(CATEGORY_ADVANCED);
 
@@ -236,6 +248,49 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
 
         mWakeWhenPluggedOrUnplugged =
                 (SwitchPreference) findPreference(KEY_WAKE_WHEN_PLUGGED_OR_UNPLUGGED);
+    }
+
+    private void updateExpandedDesktopStyle(int value) {
+        mExpandedDesktopStylePref.setValueIndex(value);
+        mExpandedDesktopStylePref.setSummary(getDesktopSummary(value));
+    }
+
+    private int getDesktopSummary(int state) {
+        switch (state) {
+            case STATE_STATUS_HIDDEN:
+                return R.string.expanded_hide_status;
+            case STATE_NAVIGATION_HIDDEN:
+                return R.string.expanded_hide_navigation;
+            case STATE_BOTH_HIDDEN:
+            default:
+                return R.string.expanded_disabled;
+        }
+    }
+
+    private int getExpandedDesktopStyle() {
+        String value = Settings.Global.getString(getContentResolver(), Settings.Global.POLICY_CONTROL);
+        int state = STATE_DISABLED;
+        if ("immersive.full=*".equals(value)) {
+            state = STATE_BOTH_HIDDEN;
+        } else if ("immersive.status=*".equals(value)) {
+            state = STATE_STATUS_HIDDEN;
+        } else if ("immersive.navigation=*".equals(value)) {
+            state = STATE_NAVIGATION_HIDDEN;
+        }
+        return state;
+    }
+
+    private void setExpandedDesktopStyle(int style) {
+        String value = "";
+        if (style == STATE_BOTH_HIDDEN) {
+            value = "immersive.full=*";
+        } else if (style == STATE_STATUS_HIDDEN) {
+            value = "immersive.status=*";
+        } else if (style == STATE_NAVIGATION_HIDDEN) {
+            value = "immersive.navigation=*";
+        }
+        Settings.Global.putString(getContentResolver(), Settings.Global.POLICY_CONTROL, value);
+        updateExpandedDesktopStyle(style);
     }
 
     private static boolean allowAllRotations(Context context) {
@@ -416,6 +471,8 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
                 (wakeUpWhenPluggedOrUnpluggedConfig ? 1 : 0)) == 1);
 
         updateState();
+        // Expanded desktop
+        updateExpandedDesktopStyle(getExpandedDesktopStyle());
     }
 
     @Override
@@ -582,6 +639,11 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
             } catch (NumberFormatException e) {
                 Log.e(TAG, "could not persist night mode setting", e);
             }
+        }
+        // Expanded desktop
+        if (preference == mExpandedDesktopStylePref) {
+            final int value = Integer.parseInt((String) objValue);
+            setExpandedDesktopStyle(value);
         }
         return true;
     }
