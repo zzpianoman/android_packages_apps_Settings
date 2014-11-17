@@ -164,4 +164,13 @@
     <string name="power_menu_bug_report_disabled">Bug reporting is disabled in development settings</string>
     <string name="power_menu_profiles_disabled">System profiles are disabled</string>
 
+
+    <!-- Expanded desktop -->
+    <string name="power_menu_expanded_desktop">Expanded desktop</string>
+    <string name="expanded_hide_nothing">Hide nothing</string>
+    <string name="expanded_hide_status">Hide status bar</string>
+    <string name="expanded_hide_navigation">Hide navigation bar</string>
+    <string name="expanded_hide_both">Hide both</string>
+    <string name="expanded_desktop_style">Expanded desktop style</string>
+    <string name="expanded_desktop_title">Expanded desktop options</string>
 </resources>
