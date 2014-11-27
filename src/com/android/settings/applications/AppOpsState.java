@@ -170,13 +170,15 @@ public class AppOpsState {
                     AppOpsManager.OP_BLUETOOTH_CHANGE,
                     AppOpsManager.OP_NFC_CHANGE,
                     AppOpsManager.OP_DATA_CONNECT_CHANGE,
-                    AppOpsManager.OP_READ_PHONE_INFO },
+                    AppOpsManager.OP_READ_PHONE_INFO,
+                    AppOpsManager.OP_WAKE_LOCK },
             new boolean[] { true,
                     true,
                     true,
                     true,
                     true,
-                    true }
+                    true,
+                    false }
             );
 
     public static final OpsTemplate BOOTUP_TEMPLATE = new OpsTemplate(
