@@ -35,6 +35,7 @@ import android.os.storage.VolumeRecord;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.text.format.Formatter.BytesResult;
@@ -57,11 +58,13 @@ import java.util.List;
  * Panel showing both internal storage (both built-in storage and private
  * volumes) and removable storage (public volumes).
  */
-public class StorageSettings extends SettingsPreferenceFragment implements Indexable {
+public class StorageSettings extends SettingsPreferenceFragment 
+                     implements Indexable, OnPreferenceChangeListener {
     static final String TAG = "StorageSettings";
 
     private static final String TAG_VOLUME_UNMOUNTED = "volume_unmounted";
     private static final String TAG_DISK_INIT = "disk_init";
+    private static final String PREF_MEDIA_SCANNER_ON_BOOT = "media_scanner_on_boot";
 
     static final int COLOR_PUBLIC = Color.parseColor("#ff9e9e9e");
     static final int COLOR_WARNING = Color.parseColor("#fff4511e");
@@ -80,6 +83,8 @@ public class StorageSettings extends SettingsPreferenceFragment implements Index
     private PreferenceCategory mExternalCategory;
 
     private StorageSummaryPreference mInternalSummary;
+
+    private ListPreference mMsob; 
 
     @Override
     protected int getMetricsCategory() {
@@ -107,6 +112,18 @@ public class StorageSettings extends SettingsPreferenceFragment implements Index
 
         mInternalSummary = new StorageSummaryPreference(context);
 
+        mMsob = (ListPreference) findPreference(PREF_MEDIA_SCANNER_ON_BOOT);
+        if (UserHandle.myUserId() != UserHandle.USER_OWNER) {
+            PreferenceCategory options =
+                    (PreferenceCategory) findPreference(PREF_OPTIONS_CATEGORY);
+            getPreferenceScreen().removePreference(options);
+        } else {
+            mMsob.setValue(String.valueOf(
+                    Settings.System.getInt(getActivity().getContentResolver(),
+                    Settings.System.MEDIA_SCANNER_ON_BOOT, 0)));
+            mMsob.setSummary(mMsob.getEntry());
+            mMsob.setOnPreferenceChangeListener(this);
+        }
         setHasOptionsMenu(true);
     }
 
@@ -279,6 +296,21 @@ public class StorageSettings extends SettingsPreferenceFragment implements Index
             return true;
         }
 
+        return false;
+    }
+
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+        String value = (String) newValue;
+        if (preference == mMsob) {
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.MEDIA_SCANNER_ON_BOOT,
+                    Integer.valueOf(value));
+
+            mMsob.setValue(String.valueOf(value));
+            mMsob.setSummary(mMsob.getEntry());
+            return true;
+        }
         return false;
     }
 
