@@ -126,8 +126,10 @@ public class AppOpsState {
                     AppOpsManager.OP_READ_CALENDAR,
                     AppOpsManager.OP_WRITE_CALENDAR,
                     AppOpsManager.OP_DELETE_CONTACTS,
-                    AppOpsManager.OP_DELETE_CALL_LOG },
+                    AppOpsManager.OP_DELETE_CALL_LOG,
+                    AppOpsManager.OP_OTHER_ACCOUNTS },
             new boolean[] { true,
+                    true,
                     true,
                     true,
                     true,
@@ -174,14 +176,16 @@ public class AppOpsState {
                     AppOpsManager.OP_NFC_CHANGE,
                     AppOpsManager.OP_DATA_CONNECT_CHANGE,
                     AppOpsManager.OP_WAKE_LOCK,
-                    AppOpsManager.OP_ALARM_WAKEUP },
+                    AppOpsManager.OP_ALARM_WAKEUP,
+                    AppOpsManager.OP_READ_PHONE_INFO },
             new boolean[] { true,
                     true,
                     true,
                     true,
                     true,
                     true,
-                    false }
+                    false,
+                    true }
             );
 
     public static final OpsTemplate BOOTUP_TEMPLATE = new OpsTemplate(

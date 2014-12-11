@@ -551,6 +551,8 @@
     <string name="app_ops_summaries_data_change">data change</string>
     <string name="app_ops_summaries_wake_up">wake up</string>
     <string name="app_ops_summaries_su">root access</string>
+    <string name="app_ops_summaries_other_accounts">other accounts</string>
+    <string name="app_ops_summaries_read_phone_info">read phone info</string>
 
     <string name="app_ops_labels_location">Location</string>
     <string name="app_ops_labels_vibrate">Vibrate</string>
@@ -604,6 +606,8 @@
     <string name="app_ops_labels_data_change">Data change</string>
     <string name="app_ops_labels_wake_up">Wake up</string>
     <string name="app_ops_labels_su">Root access</string>
+    <string name="app_ops_labels_other_accounts">Other accounts</string>
+    <string name="app_ops_labels_read_phone_info">Read phone info</string>
 
     <!-- App ops categories -->
     <string name="app_ops_categories_location">Location</string>
