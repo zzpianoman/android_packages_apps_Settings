@@ -74,7 +74,7 @@
             android:title="@string/enable_adb"
             android:summary="@string/enable_adb_summary"/>
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:key="adb_notify"
             android:title="@string/adb_notify"
             android:summary="@string/adb_notify_summary"
