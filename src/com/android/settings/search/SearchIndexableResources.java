@@ -45,6 +45,7 @@ import com.android.settings.notification.OtherSoundSettings;
 import com.android.settings.notification.ZenModeSettings;
 import com.android.settings.print.PrintSettingsFragment;
 import com.android.settings.sim.SimSettings;
+import com.android.settings.slim.QsSettings;
 import com.android.settings.users.UserSettings;
 import com.android.settings.voice.VoiceInputSettings;
 import com.android.settings.wifi.AdvancedWifiSettings;
@@ -328,6 +329,13 @@ public final class SearchIndexableResources {
                         NO_DATA_RES_ID,
                         ButtonBrightnessSettings.class.getName(),
                         R.drawable.ic_buttons));
+
+        sResMap.put(QsSettings.class.getName(),
+                new SearchIndexableResource(
+                        Ranking.getRankForClassName(QsSettings.class.getName()),
+                        R.xml.qs_settings,
+                        QsSettings.class.getName(),
+                        R.drawable.ic_settings_notification_drawer));
     }
 
     private SearchIndexableResources() {
