@@ -18,5 +18,6 @@
     <!-- QuickSettings tiles -->
     <string name="qs_screenshot_tile">Screenshot</string>
     <string name="qs_tile_reboot">Reboot</string>
+    <string name="qs_screen_off_tile">Screen off</string>
 
 </resources>
