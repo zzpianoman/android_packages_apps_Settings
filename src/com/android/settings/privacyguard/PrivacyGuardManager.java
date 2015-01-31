@@ -30,6 +30,10 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -297,6 +301,64 @@ public class PrivacyGuardManager extends Fragment
         return true;
     }
 
+    /**
+    * Uses the package manager to query for all currently installed apps
+    * for the list.
+    *
+    * @return the complete List off installed applications (@code PrivacyGuardAppInfo)
+    */
+    private List<AppInfo> loadInstalledApps() {
+        List<AppInfo> apps = new ArrayList<AppInfo>();
+        List<PackageInfo> packages = mPm.getInstalledPackages(
+            PackageManager.GET_PERMISSIONS | PackageManager.GET_SIGNATURES);
+        boolean showSystemApps = shouldShowSystemApps();
+        Signature platformCert;
+
+        try {
+            PackageInfo sysInfo = mPm.getPackageInfo("android", PackageManager.GET_SIGNATURES);
+            platformCert = sysInfo.signatures[0];
+        } catch (PackageManager.NameNotFoundException e) {
+            platformCert = null;
+        }
+
+        for (PackageInfo info : packages) {
+            final ApplicationInfo appInfo = info.applicationInfo;
+
+            // hide apps signed with the platform certificate to avoid the user
+            // shooting himself in the foot
+            if (platformCert != null && info.signatures != null
+                    && platformCert.equals(info.signatures[0])) {
+                continue;
+            }
+
+            // skip all system apps if they shall not be included
+            if (!showSystemApps && (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) {
+                continue;
+            }
+
+            AppInfo app = new AppInfo();
+            app.title = appInfo.loadLabel(mPm).toString();
+            app.packageName = info.packageName;
+            app.enabled = appInfo.enabled;
+            app.uid = info.applicationInfo.uid;
+            app.privacyGuardEnabled = mAppOps.getPrivacyGuardSettingForPackage(
+                    app.uid, app.packageName);
+            apps.add(app);
+        }
+
+        // sort the apps by their enabled state, then by title
+        Collections.sort(apps, new Comparator<AppInfo>() {
+            @Override
+            public int compare(AppInfo lhs, AppInfo rhs) {
+                if (lhs.enabled != rhs.enabled) {
+                    return lhs.enabled ? -1 : 1;
+                }
+                return lhs.title.compareToIgnoreCase(rhs.title);
+            }
+        });
+
+        return apps;
+    }
 
     private boolean shouldShowSystemApps() {
         return mPreferences.getBoolean("show_system_apps", false);
