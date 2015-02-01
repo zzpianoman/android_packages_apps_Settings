@@ -89,6 +89,7 @@
     <string name="qs_tile_reboot">Reboot</string>
     <string name="qs_tile_screenshot">Screenshot</string>
     <string name="qs_tile_notifications">Notifications</string>
+    <string name="qs_sync_tile">Sync</string>
 
     <!-- tap-to-sleep -->
     <string name="double_tap_to_sleep_title">Double-tap to sleep</string>
