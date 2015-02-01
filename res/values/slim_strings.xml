@@ -100,4 +100,7 @@
     <string name="status_bar_style_title">Style</string>
     <string name="status_bar_options_title">Options</string>
 
+    <!-- Expanded Desktop -->
+    <string name="expanded_nothing_to_show">To add a custom per-app configuration for expanded state, set \'Enabled for all\' to the off position</string>
+
 </resources>
