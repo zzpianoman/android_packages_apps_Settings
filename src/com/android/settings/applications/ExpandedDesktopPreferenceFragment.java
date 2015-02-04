@@ -16,6 +16,9 @@
 package com.android.settings.applications;
 
 import android.annotation.Nullable;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +35,7 @@ import android.view.ViewGroup;
 import android.view.WindowManagerGlobal;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SectionIndexer;
@@ -62,11 +66,14 @@ public class ExpandedDesktopPreferenceFragment extends SettingsPreferenceFragmen
     private static final int STATE_ENABLE_FOR_ALL = 0;
     private static final int STATE_USER_CONFIGURABLE = 1;
 
+    private static final String EXPANDED_DESKTOP_PREFERENCE_TAG = "desktop_prefs";
+
     private AllPackagesAdapter mAllPackagesAdapter;
     private ApplicationsState mApplicationsState;
     private View mEmptyView;
     private View mProgressBar;
     private ListView mUserListView;
+    private FrameLayout mExtraOptions;
     private ApplicationsState.Session mSession;
     private ActivityFilter mActivityFilter;
     private Map<String, ApplicationsState.AppEntry> mEntryMap =
@@ -135,6 +142,7 @@ public class ExpandedDesktopPreferenceFragment extends SettingsPreferenceFragmen
         super.onViewCreated(view, savedInstanceState);
 
         mUserListView = (ListView) view.findViewById(R.id.user_list_view);
+        mExtraOptions = (FrameLayout) view.findViewById(R.id.extra_content);
         mUserListView.setAdapter(mAllPackagesAdapter);
         mUserListView.setFastScrollEnabled(true);
         mUserListView.setOnItemClickListener(this);
@@ -151,10 +159,12 @@ public class ExpandedDesktopPreferenceFragment extends SettingsPreferenceFragmen
         if (mExpandedDesktopState == STATE_USER_CONFIGURABLE) {
             mSwitchBar.setChecked(false);
             showListView();
+            mExtraOptions.setVisibility(View.GONE);
         } else {
             mSwitchBar.setChecked(true);
             mProgressBar.setVisibility(View.GONE);
             hideListView();
+            mExtraOptions.setVisibility(View.VISIBLE);
         }
     }
 
