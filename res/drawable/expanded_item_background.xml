@@ -19,12 +19,3 @@
     <item android:state_activated="false" android:drawable="@drawable/expanded_item_bg" />
 </selector>
 
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="@string/lockscreen_settings_title"
-
-    xmlns:settings="http://schemas.android.com/apk/res/com.android.settings">
-
-</PreferenceScreen>
-
-
