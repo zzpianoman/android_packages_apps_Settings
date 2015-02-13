@@ -272,6 +272,8 @@
     <!-- About phone screen, CyanogenMod version -->
     <string name="mod_version">CyanogenMod version</string>
     <string name="mod_version_default">Unknown</string>
+
+    <!-- About phone screen, model name -->
     <string name="model_name">Model name</string>
 
     <!-- About phone screen, build date -->
@@ -279,6 +281,9 @@
     <string name="build_date_default" translatable="false">2014-01-01-0000</string>
 
     <string name="contributor_cloud_title">Contributors</string>
+
+    <!-- About phone screen, service state -->
+    <string name="phone_service_state">Voice: <xliff:g id="voice_state">%1$s</xliff:g>, data: <xliff:g id="data_state">%2$s</xliff:g></string>
 
     <!--- Tap To Wake -->
     <string name="double_tap_to_wake_title">Double-tap to wake</string>
@@ -445,9 +450,19 @@
     <string name="ime_switcher_notify">Selector icon</string>
     <string name="ime_switcher_notify_summary">Display input method selector icon</string>
 
+    <!-- Per app controls for LP keyguard notifications -->
+    <string name="app_notification_show_on_keyguard_title">Show on lock screen</string>
+    <string name="app_notification_show_on_keyguard_summary">Show notifications from this app on the lock screen</string>
+    <string name="app_notification_no_ongoing_on_keyguard_title">Disable persistent notification on lock screen</string>
+    <string name="app_notification_no_ongoing_on_keyguard_summary">Never show persistent notifications from this app on the lock screen</string>
+
     <!-- High touch sensitivity -->
     <string name="high_touch_sensitivity_title">High touch sensitivity</string>
     <string name="high_touch_sensitivity_summary">Increase touchscreen sensitivity so it can be used while wearing gloves</string>
+
+    <!-- Touchscreen hovering -->
+    <string name="touchscreen_hovering_title">Touchscreen hovering</string>
+    <string name="touchscreen_hovering_summary">Allows you to hover the screen like a mouse in web browsers, remote desktops, etc</string>
 
     <!-- App ops -->
     <string name="app_ops_summaries_coarse_location">coarse location</string>
@@ -725,14 +740,14 @@
     <string name="usb_format" product="default">Erase USB storage</string>
     <string name="usb_format_summary" product="default">Erases all data on the USB storage, such as music and photos</string>
     <string name="usb_mount" product="default">Mount USB storage</string>
-    <string name="usb_mount_summary" product="default"></string>
+    <string name="usb_mount_summary" product="default" translatable="false"></string>
     <string name="usb_insert_summary" product="default">Insert USB storage to mount</string>
     <string name="uicc_eject" product="default">Unmount UICC storage</string>
     <string name="uicc_eject_summary" product="default">Unmount the UICC storage so you can safely remove it</string>
     <string name="uicc_format" product="default">Erase UICC storage</string>
     <string name="uicc_format_summary" product="default">Erases all data on the UICC storage, such as music and photos</string>
     <string name="uicc_mount" product="default">Mount UICC storage</string>
-    <string name="uicc_mount_summary" product="default"></string>
+    <string name="uicc_mount_summary" product="default" translatable="false"></string>
     <string name="uicc_insert_summary" product="default">Insert UICC storage to mount</string>
     <!-- Title of dialog asking user to confirm before enabling UMS. [CHAR LIMIT=48] -->
     <string name="usb_settings_enable_ums_title">Enable mass storage?</string>
@@ -975,6 +990,9 @@
     <string name="expanded_hide_both">Hide both</string>
     <string name="expanded_nothing_to_show">To add a custom per-app configuration for expanded state, set \'Enabled for all\' to the off position</string>
     <string name="expanded_enabled_for_all">Enabled for all</string>
+    <string name="expanded_desktop_style">Expanded desktop style</string>
+    <string name="expanded_desktop_style_description">Choose a default expanded desktop style</string>
+    <string name="expanded_desktop_title">Expanded desktop options</string>
 
     <string name="lockscreen_targets_message">Lock screen shortcuts</string>
     <string name="lockscreen_default_target">Default</string>

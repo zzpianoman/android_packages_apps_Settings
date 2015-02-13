@@ -32,7 +32,6 @@
 package com.android.settings.sim;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -43,76 +42,175 @@ import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.Preference;
+import android.preference.SwitchPreference;
 import android.provider.Settings;
 import android.telephony.SubInfoRecord;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
-import android.util.AttributeSet;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.internal.telephony.TelephonyIntents;
 import com.android.settings.R;
 
 import java.util.List;
 
-
 /**
  * SimEnabler is a helper to manage the slot on/off checkbox preference. It is
  * turns on/off slot and ensures the summary of the preference reflects the current state.
  */
-public class MultiSimEnablerPreference extends Preference implements OnCheckedChangeListener {
-    private final Context mContext;
-
-    private String TAG = "MultiSimEnablerPreference";
+public class MultiSimEnablerPreference extends SwitchPreference implements
+        Preference.OnPreferenceChangeListener {
+    private static final String TAG = "MultiSimEnablerPreference";
     private static final boolean DBG = true;
 
     private static final int EVT_UPDATE = 1;
     private static final int EVT_SHOW_RESULT_DLG = 2;
-    private static final int EVT_SHOW_PROGRESS_DLG = 3;
-    private static final int EVT_PROGRESS_DLG_TIME_OUT = 4;
+    private static final int EVT_PROGRESS_DLG_TIME_OUT = 3;
 
-    private static final int CONFIRM_ALERT_DLG_ID = 1;
-    private static final int ERROR_ALERT_DLG_ID = 2;
+    private static final IntentFilter SUB_CHANGE_FILTER =
+            new IntentFilter(TelephonyIntents.ACTION_SUBINFO_CONTENT_CHANGE);
 
     private int mSlotId;
     private SubInfoRecord mSir;
-    private boolean mCurrentState;
 
-    private boolean mCmdInProgress = false;
-    private TextView mSubTitle, mSubSummary;
-    private int mSwitchVisibility = View.VISIBLE;
-    private Switch mSwitch;
+    private Boolean mTargetState = null;
     private Handler mParentHandler = null;
-    private AlertDialog mAlertDialog = null;
+    private AlertDialog mConfirmationDialog = null;
     private ProgressDialog mProgressDialog = null;
+    private boolean mReceiverRegistered;
+    private boolean mClicking;
+    private Switch mSwitch;
+
     //Delay for progress dialog to dismiss
     private static final int PROGRESS_DLG_TIME_OUT = 30000;
     private static final int MSG_DELAY_TIME = 2000;
 
-    private static Object mSyncLock = new Object();
-
-    private IntentFilter mIntentFilter = new IntentFilter(
-            TelephonyIntents.ACTION_SUBINFO_CONTENT_CHANGE);
-
-    public MultiSimEnablerPreference(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        mContext = context;
-        setWidgetLayoutResource(R.layout.custom_checkbox);
-        setSwitchVisibility(View.VISIBLE);
-    }
-
-    public MultiSimEnablerPreference(Context context, SubInfoRecord sir, Handler handler,
-            int slotId) {
-        this(context, null, com.android.internal.R.attr.checkBoxPreferenceStyle);
-        logd("Contructor..Enter" + sir);
+    public MultiSimEnablerPreference(Context context, SubInfoRecord sir,
+            Handler handler, int slotId) {
+        super(context);
+        logd("Constructor: " + sir);
         mSlotId = slotId;
         mSir = sir;
         mParentHandler = handler;
+        setOnPreferenceChangeListener(this);
+        setPersistent(false);
+    }
+
+    public void update() {
+        logd("update()" + mSir);
+
+        boolean isSubValid = isCurrentSubValid();
+        setEnabled(isSubValid);
+
+        logd("update() isSubValid "  + isSubValid);
+        if (isSubValid) {
+            setTitle(getSimDisplayName());
+            updateSummary();
+        } else {
+            setTitle(getContext().getResources().getString(
+                    R.string.sim_card_number_title, mSlotId + 1));
+            setSummary(R.string.sim_slot_empty);
+        }
+    }
+
+    public void cleanUp() {
+        if (mReceiverRegistered) {
+            getContext().unregisterReceiver(mReceiver);
+            mReceiverRegistered = false;
+        }
+        dismissProgressDialog();
+        if (mConfirmationDialog != null) {
+            mConfirmationDialog.dismiss();
+            mConfirmationDialog = null;
+        }
+    }
+
+    public void createEditDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        final LayoutInflater inflater = LayoutInflater.from(getContext());
+
+        final View dialogLayout = inflater.inflate(R.layout.multi_sim_dialog, null);
+        builder.setView(dialogLayout);
+
+        final EditText nameText = (EditText) dialogLayout.findViewById(R.id.sim_name);
+        nameText.setText(mSir.displayName);
+
+        TextView numberView = (TextView)dialogLayout.findViewById(R.id.number);
+        numberView.setText(mSir.number);
+
+        TextView carrierView = (TextView)dialogLayout.findViewById(R.id.carrier);
+        TelephonyManager tm = (TelephonyManager)
+                getContext().getSystemService(Context.TELEPHONY_SERVICE);
+        String spn = tm.getSimOperatorName(mSir.subId);
+        if (TextUtils.isEmpty(spn) && !tm.isNetworkRoaming(mSir.subId)) {
+            // Operator did not write the SPN inside the SIM, so set
+            // the current network operator as the SIM name, but only if
+            // we're not roaming.
+            spn = tm.getNetworkOperatorName(mSir.subId);
+        }
+        carrierView.setText(spn);
+
+        builder.setTitle(R.string.sim_editor_title);
+
+        builder.setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int whichButton) {
+                final Spinner displayNumbers =
+                        (Spinner)dialogLayout.findViewById(R.id.display_numbers);
+
+                final int formatSetting = displayNumbers.getSelectedItemPosition() == 0
+                        ? SubscriptionManager.DISPLAY_NUMBER_LAST
+                        : SubscriptionManager.DISPLAY_NUMBER_FIRST;
+                SubscriptionManager.setDisplayNumberFormat(formatSetting, mSir.subId);
+
+                mSir.displayName = nameText.getText().toString();
+                SubscriptionManager.setDisplayName(mSir.displayName,
+                        mSir.subId, SubscriptionManager.NAME_SOURCE_USER_INPUT);
+
+                update();
+            }
+        });
+
+        builder.setNegativeButton(R.string.cancel, null);
+
+        builder.show();
+    }
+
+    @Override
+    protected void onBindView(View view) {
+        super.onBindView(view);
+
+        mSwitch = (Switch) view.findViewById(com.android.internal.R.id.switchWidget);
+        mSwitch.setClickable(true);
+
+        update();
+    }
+
+    @Override
+    public boolean onPreferenceChange(Preference pref, Object newValue) {
+        if (mClicking) {
+            return false;
+        }
+
+        boolean checked = (Boolean) newValue;
+        logd("onClick: " + checked);
+
+        return configureSubscription(checked);
+    }
+
+    @Override
+    public void onClick() {
+        mClicking = true;
+        super.onClick();
+        mClicking = false;
     }
 
     private void sendMessage(int event, Handler handler, int delay) {
@@ -125,117 +223,60 @@ public class MultiSimEnablerPreference extends Preference implements OnCheckedCh
     }
 
     private boolean isAirplaneModeOn() {
-        return (Settings.Global.getInt(mContext.getContentResolver(),
+        return (Settings.Global.getInt(getContext().getContentResolver(),
                 Settings.Global.AIRPLANE_MODE_ON, 0) != 0);
     }
 
-    @Override
-    protected void onBindView(View view) {
-        super.onBindView(view);
-        mSubTitle = (TextView) view.findViewById(R.id.subtitle);
-        mSubSummary = (TextView) view.findViewById(R.id.subsummary);
-        mSwitch = (Switch) view.findViewById(R.id.subSwitchWidget);
-        mSwitch.setOnCheckedChangeListener(this);
-        update();
-        // now use other config screen to active/deactive sim card\
-        mSwitch.setVisibility(mSwitchVisibility);
-    }
-
-    public void update() {
-        logd("update()" + mSir);
-
-        final Resources res = mContext.getResources();
-        boolean isSubValid = isCurrentSubValid();
-        setEnabled(isSubValid);
-
-        logd("update() isSubValid "  + isSubValid);
-        if (isSubValid) {
-            updateTitle();
-            updateSummary();
-        } else {
-            if (mSubTitle != null) {
-                mSubTitle.setText(res.getString(R.string.sim_card_number_title, mSlotId + 1));
-            }
-            if (mSubSummary != null) {
-                mSubSummary.setText(R.string.sim_slot_empty);
-            }
-        }
-    }
-
     private boolean isCurrentSubValid() {
-        boolean isSubValid = false;
-        if (!isAirplaneModeOn() && hasCard()) {
-            List<SubInfoRecord> sirList = SubscriptionManager.getActiveSubInfoList();
-            if (sirList != null ) {
-                for (SubInfoRecord sir : sirList) {
-                    if (sir != null && mSlotId == sir.slotId) {
-                        mSir = sir;
-                        break;
-                    }
-                }
-                if (mSir != null && mSir.subId > 0 && mSir.slotId >= 0 &&
-                        mSir.mStatus != SubscriptionManager.SUB_CONFIGURATION_IN_PROGRESS) {
-                    isSubValid = true;
-                }
+        if (isAirplaneModeOn() || !hasCard()) {
+            return false;
+        }
+
+        List<SubInfoRecord> sirList = SubscriptionManager.getActiveSubInfoList();
+        if (sirList == null) {
+            return false;
+        }
+
+        for (SubInfoRecord sir : sirList) {
+            if (sir != null && mSlotId == sir.slotId) {
+                mSir = sir;
+                break;
             }
         }
-        return isSubValid;
+
+        return mSir != null && mSir.subId > 0 && mSir.slotId >= 0
+                && mSir.mStatus != SubscriptionManager.SUB_CONFIGURATION_IN_PROGRESS;
     }
 
-    private void updateTitle() {
-        if (mSubTitle == null) return;
-        mSubTitle.setText(mSir == null ? mContext.getString(R.string.sim_enabler_sim)
-                : mSir.displayName);
-    }
-
-    public void setSwitchVisibility (int visibility) {
-        mSwitchVisibility = visibility;
-    }
-
-    private void setChecked(boolean state) {
-        logd("setChecked: state " + state + "sir:" + mSir);
-        if (mSwitch != null) {
-            mSwitch.setOnCheckedChangeListener(null);
-            mSwitch.setChecked(state);
-            mSwitch.setOnCheckedChangeListener(this);
-            mCurrentState = state;
+    private String getSimDisplayName() {
+        if (mSir != null) {
+            return mSir.displayName;
         }
-    }
 
-    public void setEnabled(boolean isEnabled) {
-        if (mSwitch != null) {
-            mSwitch.setEnabled(isEnabled);
-        }
+        return getContext().getString(R.string.sim_enabler_sim);
     }
 
     private void updateSummary() {
-        Resources res = mContext.getResources();
-        String summary;
-        boolean isActivated = (mSir.mStatus == SubscriptionManager.ACTIVE);
+        Resources res = getContext().getResources();
+        boolean isActivated = mSir.mStatus == SubscriptionManager.ACTIVE;
         logd("updateSummary: subId " + mSir.subId + " isActivated = " + isActivated +
                 " slot id = " + mSlotId);
 
-        if (isActivated) {
-            summary = mContext.getString(R.string.sim_enabler_summary,
-                    res.getString(R.string.sim_enabled));
-        } else {
-            summary = mContext.getString(R.string.sim_enabler_summary,
-                    res.getString(hasCard() ? R.string.sim_disabled : R.string.sim_missing));
-        }
-
-        if (mSubSummary != null) {
-            mSubSummary.setText(summary);
-        }
-        setChecked(isActivated);
+        String simSlot = res.getString(R.string.sim_card_number_title, mSlotId + 1);
+        String summary = res.getString(R.string.sim_settings_summary, simSlot, mSir.number);
+        setSummary(summary);
+        updateCheckedState(isActivated);
     }
 
+    private void updateCheckedState(boolean checked) {
+        setOnPreferenceChangeListener(null);
+        if (mSwitch != null) {
+            mSwitch.setChecked(checked);
+        }
+        setOnPreferenceChangeListener(this);
+    }
 
-    /**
-     * get count of active SubInfo on the device
-     * @param context
-     * @return
-     */
-    public static int getActivatedSubInfoCount(Context context) {
+    private int getActivatedSubInfoCount() {
         int activeSubInfoCount = 0;
         List<SubInfoRecord> subInfoLists = SubscriptionManager.getActiveSubInfoList();
         if (subInfoLists != null) {
@@ -246,117 +287,100 @@ public class MultiSimEnablerPreference extends Preference implements OnCheckedCh
         return activeSubInfoCount;
     }
 
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        mCurrentState = isChecked;
-        logd("onClick: " + isChecked);
-
-        synchronized (mSyncLock) {
-            configureSubscription();
-        }
-    }
-
-    private void configureSubscription() {
+    private boolean configureSubscription(boolean enable) {
         if (isAirplaneModeOn()) {
             // do nothing but warning
             logd("APM is on, EXIT!");
-            showAlertDialog(ERROR_ALERT_DLG_ID, R.string.sim_enabler_airplane_on);
-            return;
+            showToast(R.string.sim_enabler_airplane_on);
+            return false;
         }
         for (int i = 0; i < TelephonyManager.getDefault().getPhoneCount(); i++) {
             long[] subId = SubscriptionManager.getSubId(i);
             if (TelephonyManager.getDefault().getCallState(subId[0])
-                != TelephonyManager.CALL_STATE_IDLE) {
+                    != TelephonyManager.CALL_STATE_IDLE) {
                 logd("Call state for phoneId: " + i + " is not idle, EXIT!");
-                showAlertDialog(ERROR_ALERT_DLG_ID, R.string.sim_enabler_in_call);
-                return;
+                showToast(R.string.sim_enabler_in_call);
+                return false;
             }
         }
 
-        if (!mCurrentState) {
-            if (getActivatedSubInfoCount(mContext) > 1) {
+        if (!enable) {
+            if (getActivatedSubInfoCount() > 1) {
                 logd("More than one sub is active, Deactivation possible.");
-                showAlertDialog(CONFIRM_ALERT_DLG_ID, 0);
+                showDisableConfirmationDialog();
             } else {
                 logd("Only one sub is active. Deactivation not possible.");
-                showAlertDialog(ERROR_ALERT_DLG_ID, R.string.sim_enabler_both_inactive);
-                return;
+                showToast(R.string.sim_enabler_both_inactive);
+                return false;
             }
         } else {
             logd("Activate the sub");
-            sendSubConfigurationRequest();
+            sendSubConfigurationRequest(true);
         }
 
+        return true;
     }
 
-    private void sendSubConfigurationRequest() {
-        if (mParentHandler == null || !mSwitch.isEnabled()) {
+    private void showToast(int textResId) {
+        Toast.makeText(getContext(), textResId, Toast.LENGTH_LONG).show();
+    }
+
+    private void sendSubConfigurationRequest(boolean enable) {
+        if (mParentHandler == null) {
             return;
         }
-        mCmdInProgress = true;
+        mTargetState = enable;
 
-        showProgressDialog();
-        mSwitch.setEnabled(false);
-        if (mCurrentState) {
+        showProgressDialog(enable);
+        // mSwitch.setEnabled(false);
+        if (enable) {
             SubscriptionManager.activateSubId(mSir.subId);
         } else {
             SubscriptionManager.deactivateSubId(mSir.subId);
         }
 
-        mContext.registerReceiver(mReceiver, mIntentFilter);
+        if (!mReceiverRegistered) {
+            getContext().registerReceiver(mReceiver, SUB_CHANGE_FILTER);
+            mReceiverRegistered = true;
+        }
     }
 
     private void processSetUiccDone() {
         sendMessage(EVT_UPDATE, mParentHandler, MSG_DELAY_TIME);
         sendMessage(EVT_SHOW_RESULT_DLG, mHandler, MSG_DELAY_TIME);
-        mCmdInProgress = false;
-        unregisterReceiver();
+        mTargetState = null;
+        if (mReceiverRegistered) {
+            getContext().unregisterReceiver(mReceiver);
+            mReceiverRegistered = false;
+        }
     }
 
-    private void showAlertDialog(int dialogId, int msgId) {
-        String title = mSir == null ? mContext.getString(R.string.sim_enabler_sim)
-                : mSir.displayName;
-        // Confirm only one AlertDialog instance to show.
-        dismissDialog(mAlertDialog);
-        dismissDialog(mProgressDialog);
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        switch(dialogId) {
-            case CONFIRM_ALERT_DLG_ID:
-                builder.setTitle(title);
-                builder.setMessage(mContext.getString(R.string.sim_enabler_need_disable_sim));
-                builder.setPositiveButton(R.string.sim_enabler_deactivate, mDialogClickListener);
-                builder.setNegativeButton(android.R.string.no, mDialogClickListener);
-                builder.setOnCancelListener(mDialogCanceListener);
-                break;
-            case ERROR_ALERT_DLG_ID:
-                builder.setMessage(mContext.getString(msgId));
-                builder.setPositiveButton(android.R.string.ok,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int which) {
-                                update();
-                            }
-                        });
-                builder.setCancelable(false);
-                break;
-            default:
-                break;
+    private void showDisableConfirmationDialog() {
+        if (mConfirmationDialog != null) {
+            mConfirmationDialog.dismiss();
         }
 
-        mAlertDialog = builder.create();
-        mAlertDialog.setCanceledOnTouchOutside(false);
-        mAlertDialog.show();
+        mConfirmationDialog = new AlertDialog.Builder(getContext())
+                .setTitle(getSimDisplayName())
+                .setMessage(R.string.sim_enabler_need_disable_sim)
+                .setPositiveButton(R.string.sim_enabler_deactivate, mConfirmDialogListener)
+                .setNegativeButton(android.R.string.no, mConfirmDialogListener)
+                .setOnCancelListener(mConfirmDialogCancelListener)
+                .create();
+
+        mConfirmationDialog.setCanceledOnTouchOutside(false);
+        mConfirmationDialog.show();
     }
 
-    private void showProgressDialog() {
-        String simName = mSir == null ? mContext.getString(R.string.sim_enabler_sim)
-                : mSir.displayName;
+    private void showProgressDialog(boolean enabling) {
+        int stateTextResId = enabling
+                ? R.string.sim_enabler_enabling : R.string.sim_enabler_disabling;
 
-        String msg = mContext.getString(mCurrentState ? R.string.sim_enabler_enabling
-                : R.string.sim_enabler_disabling, simName);
-        dismissDialog(mProgressDialog);
-        mProgressDialog = new ProgressDialog(mContext);
+        dismissProgressDialog();
+
+        mProgressDialog = new ProgressDialog(getContext());
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage(msg);
+        mProgressDialog.setMessage(getContext().getString(stateTextResId, getSimDisplayName()));
         mProgressDialog.setCancelable(false);
         mProgressDialog.setCanceledOnTouchOutside(false);
         mProgressDialog.show();
@@ -364,47 +388,37 @@ public class MultiSimEnablerPreference extends Preference implements OnCheckedCh
         sendMessage(EVT_PROGRESS_DLG_TIME_OUT, mHandler, PROGRESS_DLG_TIME_OUT);
     }
 
-    private void dismissDialog(Dialog dialog) {
-        if(dialog != null) {
-            dialog.dismiss();
-            dialog = null;
+    private void dismissProgressDialog() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
         }
     }
 
-    public void cleanUp() {
-        unregisterReceiver();
-        dismissDialog(mProgressDialog);
-        dismissDialog(mAlertDialog);
+    private void logd(String msg) {
+        if (DBG) Log.d(TAG + "(" + mSlotId + ")", msg);
     }
 
-    private void unregisterReceiver() {
-        try {
-            mContext.unregisterReceiver(mReceiver);
-        } catch (Exception ex) {}
-    }
+    private DialogInterface.OnClickListener mConfirmDialogListener =
+            new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            if (which == DialogInterface.BUTTON_POSITIVE) {
+                sendSubConfigurationRequest(false);
+            } else if (which == DialogInterface.BUTTON_NEGATIVE) {
+                updateCheckedState(true);
+            }
+        }
+    };
 
-    private DialogInterface.OnClickListener mDialogClickListener = new DialogInterface
-            .OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    if (which == DialogInterface.BUTTON_POSITIVE) {
-                        sendSubConfigurationRequest();
-                    } else if (which == DialogInterface.BUTTON_NEGATIVE) {
-                        setChecked(true);
-                        mSubSummary.setText(mContext.getString(
-                                R.string.sim_enabler_summary,
-                                mContext.getString(R.string.sim_enabled)));
-                    } else if (which == DialogInterface.BUTTON_NEUTRAL) {
-                        update();
-                    }
-                }
-            };
-
-    private DialogInterface.OnCancelListener mDialogCanceListener = new DialogInterface
-            .OnCancelListener() {
-                public void onCancel(DialogInterface dialog) {
-                    update();
-                }
-            };
+    private DialogInterface.OnCancelListener mConfirmDialogCancelListener =
+            new DialogInterface.OnCancelListener() {
+        @Override
+        public void onCancel(DialogInterface dialog) {
+            mConfirmationDialog = null;
+            update();
+        }
+    };
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -417,10 +431,10 @@ public class MultiSimEnablerPreference extends Preference implements OnCheckedCh
                 int intValue = intent.getIntExtra(TelephonyIntents.EXTRA_INT_CONTENT, 0);
                 logd("Received ACTION_SUBINFO_CONTENT_CHANGE on subId: " + subId
                         + "for " + column + " intValue: " + intValue);
-                if (mCmdInProgress && column != null
-                        && column.equals(SubscriptionManager.SUB_STATE) && mSir.subId == subId) {
-                    if ((intValue == SubscriptionManager.ACTIVE && mCurrentState == true) ||
-                            (intValue == SubscriptionManager.INACTIVE && mCurrentState == false)) {
+                if (mTargetState != null && mSir.subId == subId && column != null
+                        && column.equals(SubscriptionManager.SUB_STATE)) {
+                    if ((intValue == SubscriptionManager.ACTIVE && mTargetState) ||
+                            (intValue == SubscriptionManager.INACTIVE && !mTargetState)) {
                         processSetUiccDone();
                     }
                 }
@@ -435,29 +449,16 @@ public class MultiSimEnablerPreference extends Preference implements OnCheckedCh
                 case EVT_SHOW_RESULT_DLG:
                     logd("EVT_SHOW_RESULT_DLG");
                     update();
-                    dismissDialog(mProgressDialog);
+                    dismissProgressDialog();
                     mHandler.removeMessages(EVT_PROGRESS_DLG_TIME_OUT);
-                    break;
-                case EVT_SHOW_PROGRESS_DLG:
-                    logd("EVT_SHOW_PROGRESS_DLG");
-                    showProgressDialog();
                     break;
                 case EVT_PROGRESS_DLG_TIME_OUT:
                     logd("EVT_PROGRESS_DLG_TIME_OUT");
-                    dismissDialog(mProgressDialog);
+                    dismissProgressDialog();
                     break;
                 default:
                     break;
             }
         }
     };
-
-    private void logd(String msg) {
-        if (DBG) Log.d(TAG + "(" + mSlotId + ")", msg);
-    }
-
-    private void loge(String msg) {
-        if (DBG) Log.e(TAG + "(" + mSlotId + ")", msg);
-    }
-
 }
