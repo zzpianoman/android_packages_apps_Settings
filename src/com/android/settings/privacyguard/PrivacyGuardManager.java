@@ -30,10 +30,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -300,7 +296,7 @@ public class PrivacyGuardManager extends Fragment
                 R.string.privacy_guard_manager_title, null, this, 2);
         return true;
     }
-    
+
     private boolean shouldShowSystemApps() {
         return mPreferences.getBoolean("show_system_apps", false);
     }
