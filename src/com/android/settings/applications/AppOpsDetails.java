@@ -28,6 +28,7 @@ import android.content.pm.PermissionGroupInfo;
 import android.content.pm.PermissionInfo;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.SystemProperties;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -152,13 +153,15 @@ public class AppOpsDetails extends Fragment {
         String lastPermGroup = "";
         boolean isPlatformSigned = isPlatformSigned();
         for (AppOpsState.OpsTemplate tpl : AppOpsState.ALL_TEMPLATES) {
-            /* If we are platform signed, only show the root switch, this
-             * one is safe to toggle while other permission-based ones could
-             * certainly cause system-wide problems
-             */
-            if (isPlatformSigned && tpl != AppOpsState.SU_TEMPLATE) {
-                 continue;
-            }
+	    if (SystemProperties.getInt("ro.appops.show_platform", 0) == 0) {
+                /* If we are platform signed, only show the root switch, this
+                 * one is safe to toggle while other permission-based ones could
+                 * certainly cause system-wide problems
+                 */
+                if (isPlatformSigned && tpl != AppOpsState.SU_TEMPLATE) {
+                     continue;
+                }
+	    }
             List<AppOpsState.AppOpEntry> entries = mState.buildState(tpl,
                     mPackageInfo.applicationInfo.uid, mPackageInfo.packageName);
             for (final AppOpsState.AppOpEntry entry : entries) {
