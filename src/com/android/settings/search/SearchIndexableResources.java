@@ -38,6 +38,7 @@ import com.android.settings.fuelgauge.BatterySaverSettings;
 import com.android.settings.fuelgauge.PowerUsageSummary;
 import com.android.settings.inputmethod.InputMethodAndLanguageSettings;
 import com.android.settings.location.LocationSettings;
+import com.android.settings.lockscreen.LockScreenSettings; 
 import com.android.settings.net.DataUsageMeteredSettings;
 import com.android.settings.notification.NotificationSettings;
 import com.android.settings.notification.OtherSoundSettings;
@@ -123,6 +124,13 @@ public final class SearchIndexableResources {
                         NO_DATA_RES_ID,
                         WirelessSettings.class.getName(),
                         R.drawable.ic_settings_more));
+
+        sResMap.put(LockScreenSettings.class.getName(),
+                new SearchIndexableResource(
+                        Ranking.getRankForClassName(LockScreenSettings.class.getName()),
+                        NO_DATA_RES_ID,
+                        LockScreenSettings.class.getName(),
+                        R.drawable.ic_settings_security));
 
         sResMap.put(HomeSettings.class.getName(),
                 new SearchIndexableResource(

@@ -36,6 +36,7 @@ import com.android.settings.fuelgauge.BatterySaverSettings;
 import com.android.settings.fuelgauge.PowerUsageSummary;
 import com.android.settings.inputmethod.InputMethodAndLanguageSettings;
 import com.android.settings.location.LocationSettings;
+import com.android.settings.lockscreen.LockScreenSettings; 
 import com.android.settings.net.DataUsageMeteredSettings;
 import com.android.settings.notification.NotificationSettings;
 import com.android.settings.notification.OtherSoundSettings;
@@ -138,6 +139,7 @@ public final class Ranking {
         // Security
         sRankMap.put(SecuritySettings.class.getName(), RANK_SECURITY);
         sRankMap.put(ChooseLockGeneric.ChooseLockGenericFragment.class.getName(), RANK_SECURITY);
+        sRankMap.put(LockScreenSettings.class.getName(), RANK_SECURITY); 
         sRankMap.put(ScreenPinningSettings.class.getName(), RANK_SECURITY);
 
         // IMEs
