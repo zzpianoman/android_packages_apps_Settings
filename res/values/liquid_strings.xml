@@ -31,6 +31,7 @@
     <string name="block_on_secure_keyguard_title">Disable on lockscreen</string>
     <string name="block_on_secure_keyguard_summary">Disable quick settings on secure lockscreen.</string>
 
+    <string name="qs_tile_heads_up">Heads up</string>
 
     <string name="qs_main_tiles_title">Enlarge first row</string>
     <string name="qs_main_tiles_summary_on">Two main tiles on the first row</string>
