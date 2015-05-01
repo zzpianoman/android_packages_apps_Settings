@@ -15,6 +15,10 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
+    <!-- Privacy Guard -->
+    <string name="privacy_guard_notification_title">Notification</string>
+    <string name="privacy_guard_notifiation_summary">Show notification if privacy guard is active.</string>
+
     <!-- About device screen, CPU and RAM info. -->
     <string name="cpu_info">CPU</string>
     <string name="mem_info">Memory</string>
