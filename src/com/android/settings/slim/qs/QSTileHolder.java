@@ -152,6 +152,10 @@ public class QSTileHolder {
                 resourceName = "ic_qs_battery_reserve_on";
                 stringId = R.string.qs_tile_battery_reserve;
                 break;
+            case QSConstants.TILE_EXPANDED_DESKTOP:
+                resourceName = "ic_qs_expanded_desktop";
+                stringId = R.string.qs_expanded_desktop_tile;
+                break;
             default:
                 return null;
         }
