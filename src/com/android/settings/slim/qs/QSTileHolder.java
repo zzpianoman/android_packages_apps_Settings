@@ -129,7 +129,11 @@ public class QSTileHolder {
                 resourceName = "ic_qs_screenshot";
                 stringId = R.string.qs_tile_screenshot;
                 break;
-             default:
+            case QSConstants.TILE_BATTERY_RESERVE:
+                resourceName = "ic_qs_battery_reserve_on";
+                stringId = R.string.qs_tile_battery_reserve;
+                break;
+            default:
                 return null;
         }
 
