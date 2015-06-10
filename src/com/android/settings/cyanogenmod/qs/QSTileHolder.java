@@ -173,6 +173,10 @@ public class QSTileHolder {
                 resourceName = "ic_qs_power";
                 stringId = R.string.qs_screen_off_tile;
                 break;
+            case QSConstants.TILE_BATTERY_RESERVE:
+                resourceName = "ic_qs_battery_reserve_on";
+                stringId = R.string.qs_tile_battery_reserve;
+                break;
             default:
                 return null;
         }
