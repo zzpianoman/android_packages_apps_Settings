@@ -347,9 +347,9 @@ public class InstalledAppDetails extends Fragment
         mUpdatedSysApp = (mAppEntry.info.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0;
         final boolean isBundled = (mAppEntry.info.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
         boolean enabled = true;
+        boolean showSpecialDisable = false;
         if (mUpdatedSysApp) {
             mUninstallButton.setText(R.string.app_factory_reset);
-            boolean showSpecialDisable = false;
             if (isBundled) {
                 showSpecialDisable = handleDisableable(mSpecialDisableButton);
                 mSpecialDisableButton.setOnClickListener(this);
@@ -357,9 +357,7 @@ public class InstalledAppDetails extends Fragment
             if (mAppControlRestricted) {
                 showSpecialDisable = false;
             }
-            mMoreControlButtons.setVisibility(showSpecialDisable ? View.VISIBLE : View.GONE);
         } else {
-            mMoreControlButtons.setVisibility(View.GONE);
             if (isBundled) {
                 enabled = handleDisableable(mUninstallButton);
             } else if ((mPackageInfo.applicationInfo.flags
@@ -370,9 +368,12 @@ public class InstalledAppDetails extends Fragment
                 mUninstallButton.setText(R.string.uninstall_text);
                 enabled = false;
             } else {
+                showSpecialDisable = handleDisableable(mSpecialDisableButton);
+                mSpecialDisableButton.setOnClickListener(this);
                 mUninstallButton.setText(R.string.uninstall_text);
             }
         }
+        mMoreControlButtons.setVisibility(showSpecialDisable ? View.VISIBLE : View.GONE);
         // If this is a device admin, it can't be uninstalled or disabled.
         // We do this here so the text of the button is still set correctly.
         if (mDpm.packageHasActiveAdmins(mPackageInfo.packageName)) {
@@ -1484,7 +1485,14 @@ public class InstalledAppDetails extends Fragment
                 }
             }
         } else if(v == mSpecialDisableButton) {
-            showDialogInner(DLG_SPECIAL_DISABLE, 0);
+            if ((mAppEntry.info.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
+                new DisableChanger(this, mAppEntry.info, mAppEntry.info.enabled ?
+                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER :
+                        PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)
+                .execute((Object)null);
+            } else {
+                showDialogInner(DLG_SPECIAL_DISABLE, 0);
+            }
         } else if(v == mActivitiesButton) {
             if (mUsbManager != null) {
                 mPm.clearPackagePreferredActivities(packageName);
