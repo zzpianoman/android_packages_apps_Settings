@@ -610,7 +610,7 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
                     mWakeWhenPluggedOrUnplugged.isChecked() ? 1 : 0);
             return true;
         } else if (preference == mAccelerometer) {
-            RotationPolicy.setRotationLockForAccessibility(getActivity(),
+            RotationPolicy.setRotationLock(getActivity(),
                     !mAccelerometer.isChecked());
         }
 

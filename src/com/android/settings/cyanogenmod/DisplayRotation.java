@@ -152,7 +152,7 @@ public class DisplayRotation extends SettingsPreferenceFragment {
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
             Preference preference) {
         if (preference == mAccelerometer) {
-            RotationPolicy.setRotationLockForAccessibility(getActivity(),
+            RotationPolicy.setRotationLock(getActivity(),
                     !mAccelerometer.isChecked());
         } else if (preference == mRotation0Pref ||
                 preference == mRotation90Pref ||
