@@ -250,6 +250,20 @@ public class ApplicationsState {
         }
     };
 
+    public static final AppFilter DONOTKILL_FILTER = new AppFilter() {
+        DoNotKillChecker mChecker = new DoNotKillChecker();
+        public void init() {
+        }
+
+        @Override
+        public boolean filterApp(ApplicationInfo info) {
+	    if (mChecker.check(info) == 1) {
+                return true;
+	    }
+	    return false;
+        }
+    };
+
     public static final AppFilter ALL_ENABLED_FILTER = new AppFilter() {
         public void init() {
         }

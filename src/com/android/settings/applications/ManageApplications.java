@@ -126,6 +126,35 @@ final class CanBeOnSdCardChecker {
     }
 }
 
+final class DoNotKillChecker {
+    final IPackageManager mPm;
+
+    DoNotKillChecker() {
+        mPm = IPackageManager.Stub.asInterface(
+                ServiceManager.getService("package"));
+    }
+
+    int check(ApplicationInfo info) {
+        int ret = -1;
+        try {
+            ret = mPm.getDoNotKillEnabled(info.packageName);
+        } catch (RemoteException e) {
+            // Should never happen!
+        }
+        return ret;
+    }
+
+    int update() {
+        int ret = -1;
+        try {
+            ret = mPm.updateDoNotKill();
+        } catch (RemoteException e) {
+            // Should never happen!
+        }
+        return ret;
+    }
+}
+
 interface AppClickListener {
     void onItemClick(ManageApplications.TabInfo tab, AdapterView<?> parent,
             View view, int position, long id);
@@ -176,7 +205,8 @@ public class ManageApplications extends Fragment implements
     public static final int FILTER_APPS_ALL = MENU_OPTIONS_BASE + 0;
     public static final int FILTER_APPS_THIRD_PARTY = MENU_OPTIONS_BASE + 1;
     public static final int FILTER_APPS_SDCARD = MENU_OPTIONS_BASE + 2;
-    public static final int FILTER_APPS_DISABLED = MENU_OPTIONS_BASE + 3;
+    public static final int FILTER_APPS_DONOTKILL = MENU_OPTIONS_BASE + 3;
+    public static final int FILTER_APPS_DISABLED = MENU_OPTIONS_BASE + 4;
 
     public static final int SORT_ORDER_ALPHA = MENU_OPTIONS_BASE + 4;
     public static final int SORT_ORDER_SIZE = MENU_OPTIONS_BASE + 5;
@@ -243,6 +273,7 @@ public class ManageApplications extends Fragment implements
                 case LIST_TYPE_DOWNLOADED: mFilter = FILTER_APPS_THIRD_PARTY; break;
                 case LIST_TYPE_SDCARD: mFilter = FILTER_APPS_SDCARD; break;
                 case LIST_TYPE_DISABLED: mFilter = FILTER_APPS_DISABLED; break;
+                case LIST_TYPE_DONOTKILL: mFilter = FILTER_APPS_DONOTKILL; break;
                 default: mFilter = FILTER_APPS_ALL; break;
             }
             mClickListener = clickListener;
@@ -479,7 +510,8 @@ public class ManageApplications extends Fragment implements
     static final int LIST_TYPE_RUNNING = 1;
     static final int LIST_TYPE_SDCARD = 2;
     static final int LIST_TYPE_ALL = 3;
-    static final int LIST_TYPE_DISABLED = 4;
+    static final int LIST_TYPE_DONOTKILL = 4;
+    static final int LIST_TYPE_DISABLED = 5;
 
     private boolean mShowBackground = false;
     
@@ -492,6 +524,7 @@ public class ManageApplications extends Fragment implements
     private UserSpinnerAdapter mProfileSpinnerAdapter;
     private Spinner mSpinner;
     private Context mContext;
+    private TabInfo DoNotKilltab;
 
     AlertDialog mResetDialog;
     AlertDialog mAppInstallLocationDialog;
@@ -658,6 +691,9 @@ public class ManageApplications extends Fragment implements
                     break;
                 case FILTER_APPS_DISABLED:
                     filterObj = ApplicationsState.DISABLED_FILTER;
+                    break;
+                case FILTER_APPS_DONOTKILL:
+                    filterObj = ApplicationsState.DONOTKILL_FILTER;
                     break;
                 default:
                     filterObj = ApplicationsState.ALL_ENABLED_FILTER;
@@ -917,6 +953,15 @@ public class ManageApplications extends Fragment implements
                 getActivity().getString(R.string.filter_apps_all),
                 LIST_TYPE_ALL, this, savedInstanceState);
         mTabs.add(tab);
+
+        // Only add tab for lowmemorykiller whitelist module if supported
+        final DoNotKillChecker mChecker = new DoNotKillChecker();
+        if (mChecker.update() > -1) {
+            tab = new TabInfo(this, mApplicationsState,
+                    getActivity().getString(R.string.filter_apps_donotkill),
+                    LIST_TYPE_DONOTKILL, this, savedInstanceState);
+            mTabs.add(tab);
+        }
 
         tab = new TabInfo(this, mApplicationsState,
                 getActivity().getString(R.string.filter_apps_disabled),
