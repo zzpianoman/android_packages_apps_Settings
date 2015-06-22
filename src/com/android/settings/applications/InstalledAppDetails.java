@@ -34,6 +34,7 @@ import android.app.admin.DevicePolicyManager;
 import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -58,6 +59,7 @@ import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.UserHandle;
 import android.os.UserManager;
+import android.provider.Settings;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.format.Formatter;
@@ -66,7 +68,9 @@ import android.util.Log;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -141,6 +145,7 @@ public class InstalledAppDetails extends Fragment
     private Button mForceStopButton;
     private Button mClearDataButton;
     private Button mMoveAppButton;
+    private CompoundButton mDoNotKillSwitch;
     private Button mAppOpsButton;
     private CompoundButton mNotificationSwitch;
 
@@ -184,6 +189,7 @@ public class InstalledAppDetails extends Fragment
     private static final int DLG_DISABLE = DLG_BASE + 7;
     private static final int DLG_DISABLE_NOTIFICATIONS = DLG_BASE + 8;
     private static final int DLG_SPECIAL_DISABLE = DLG_BASE + 9;
+    private static final int DLG_DONOTKILL_FAILED = DLG_BASE + 10;
 
     // Menu identifiers
     public static final int UNINSTALL_ALL_USERS_MENU = 1;
@@ -437,6 +443,34 @@ public class InstalledAppDetails extends Fragment
         }
     }
 
+    private void initDoNotKillButton() {
+        boolean enabled = false; // default off
+        final String mPackageName = mAppEntry.info.packageName;
+        ContentResolver resolver = getActivity().getContentResolver();
+        String order = Settings.Secure.getString(resolver, Settings.Secure.DONOTKILL_PROC);
+        if (order == null) {
+            Settings.Secure.putString(resolver, android.provider.Settings.Secure.DONOTKILL_PROC, "");
+            order = Settings.Secure.getString(resolver, Settings.Secure.DONOTKILL_PROC);
+        }
+        List<String> mPackageNames = Arrays.asList(order.split(","));
+        if (mPackageNames.contains(mPackageName)) {
+            enabled = true;
+        }
+
+        mDoNotKillSwitch.setChecked(false);
+        if ((mPackageInfo.applicationInfo.flags & ApplicationInfo.FLAG_INSTALLED) == 0) {
+            // App is not installed on the current user
+            mDoNotKillSwitch.setEnabled(false);
+            // lowmemorykiller module is not present or app is disabled
+        } else if (!canDoNotKill()) {
+            mDoNotKillSwitch.setEnabled(false);
+        } else {
+            mDoNotKillSwitch.setChecked(enabled);
+            mDoNotKillSwitch.setEnabled(true);
+            mDoNotKillSwitch.setOnCheckedChangeListener(this);
+        }
+    }
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle icicle) {
@@ -513,6 +547,8 @@ public class InstalledAppDetails extends Fragment
         mScreenCompatSection = view.findViewById(R.id.screen_compatibility_section);
         mAskCompatibilityCB = (CheckBox) view.findViewById(R.id.ask_compatibility_cb);
         mEnableCompatibilityCB = (CheckBox) view.findViewById(R.id.enable_compatibility_cb);
+        
+        mDoNotKillSwitch = (CompoundButton) view.findViewById(R.id.donotkill_switch);
 
         mNotificationSwitch = (CompoundButton) view.findViewById(R.id.notification_switch);
         mAppOpsButton = (Button) view.findViewById(R.id.app_ops_button);
@@ -1071,6 +1107,7 @@ public class InstalledAppDetails extends Fragment
             initDataButtons();
             initMoveButton();
             initNotificationButton();
+            initDoNotKillButton();
         } else {
             mMoveAppButton.setText(R.string.moving);
             mMoveAppButton.setEnabled(false);
@@ -1266,6 +1303,12 @@ public class InstalledAppDetails extends Fragment
                     })
                     .setNegativeButton(R.string.dlg_cancel, null)
                     .create();
+                case DLG_DONOTKILL_FAILED:
+                     return new AlertDialog.Builder(getActivity())
+                    .setTitle(getActivity().getText(R.string.donotkill_app_failed_dlg_title))
+                    .setMessage(getActivity().getText(R.string.donotkill_app_failed_dlg_text))
+                    .setNeutralButton(R.string.dlg_ok, null)
+                    .create();
             }
             throw new IllegalArgumentException("unknown id " + id);
         }
@@ -1357,6 +1400,53 @@ public class InstalledAppDetails extends Fragment
         } catch (android.os.RemoteException ex) {
             mNotificationSwitch.setChecked(!enabled); // revert
         }
+    }
+
+    private void setDoNotKillEnabled(boolean enabled) {
+        final String mPackageName = mAppEntry.info.packageName;
+        final int MAX_DONOTKILL_APPS = 12;
+        int mAppCount = 0;
+        final DoNotKillChecker mChecker = new DoNotKillChecker();
+        ContentResolver resolver = getActivity().getContentResolver();
+        String order = Settings.Secure.getString(resolver, Settings.Secure.DONOTKILL_PROC);
+        if (order == null) {
+            Settings.Secure.putString(resolver, android.provider.Settings.Secure.DONOTKILL_PROC, "");
+            order = Settings.Secure.getString(resolver, Settings.Secure.DONOTKILL_PROC);
+        }
+        List<String> mPackageNames = new LinkedList<String>(Arrays.asList(order.split(",")));
+        if (enabled && !mPackageNames.contains(mPackageName)) {
+            mPackageNames.add(mPackageName);
+        } else if (!enabled && mPackageNames.contains(mPackageName)) {
+            mPackageNames.remove(mPackageName);
+        } else {
+            enabled = !enabled;
+        }
+        StringBuilder packageList = new StringBuilder();
+        for (String s : mPackageNames) {
+            if (packageList.length() > 0) {
+                packageList.append(",");
+            }
+            packageList.append(s);
+            mAppCount++;
+        }
+        if (mAppCount < (MAX_DONOTKILL_APPS + 1)) {
+            mDoNotKillSwitch.setChecked(enabled);
+            Settings.Secure.putString(resolver, Settings.Secure.DONOTKILL_PROC, packageList.toString());
+            mChecker.update();
+        } else {
+            mDoNotKillSwitch.setChecked(false);
+            showDialogInner(DLG_DONOTKILL_FAILED, 0);
+        }
+    }
+
+    private boolean canDoNotKill() {
+        final String mPackageName = mAppEntry.info.packageName;
+        // lowmemorykiller module is not present or app is disabled or is platform app
+        if ((mPm.getDoNotKillEnabled(mPackageName) == -1) || !mAppEntry.info.enabled ||
+                                                          Utils.isSystemPackage(mPm, mPackageInfo)) {
+            return false;
+        }
+        return true;
     }
 
     private int getPremiumSmsPermission(String packageName) {
@@ -1464,6 +1554,12 @@ public class InstalledAppDetails extends Fragment
                 showDialogInner(DLG_DISABLE_NOTIFICATIONS, 0);
             } else {
                 setNotificationsEnabled(true);
+            }
+        } else if (buttonView == mDoNotKillSwitch) {
+            if (!isChecked) {
+                setDoNotKillEnabled(false);
+            } else {
+                setDoNotKillEnabled(true);
             }
         }
     }
