@@ -112,11 +112,6 @@
     <!-- Add application dialog box title -->
     <string name="profile_choose_app">Choose app</string>
 
-    <!-- Label for lowmemorykiller whitelist apps [CHAR LIMIT=20] -->
-    <string name="app_donotkill_switch_label">Do not kill</string>
-    <!-- [CHAR LIMIT=NONE] Text for lowmemorykiller whitelist to display whitelisted apps -->
-    <string name="filter_apps_donotkill">Do not kill</string>
-
     <!-- Profiles - system settings -->
     <string name="profile_system_settings_title">System settings</string>
     <string name="profile_lockmode_title">Lock screen mode</string>
@@ -1048,7 +1043,6 @@
     <string name="qs_tile_heads_up">Heads up</string>
     <string name="qs_tile_ambient_display">Ambient display</string>
     <string name="qs_tile_sync">Sync</string>
-    <string name="qs_tile_battery_reserve">Emergency Battery</string>
 
     <string name="qs_main_tiles_title">Enlarge first row</string>
     <string name="qs_main_tiles_summary_on">Two main tiles on the first row</string>
@@ -1242,11 +1236,4 @@
     <string name="sim_card_summary_empty">SIM not inserted</string>
     <string name="sim_mobile_network_settings_category_title">Mobile network settings</string>
     <string name="sim_mobile_network_settings_title">SIM %d settings</string>
-
-    <!-- [CHAR LIMIT=NONE] Text for filter option in ManageApps screen to display whitelisted apps -->
-    <string name="filter_apps_donotkill">Do not kill</string>
-    <!-- Manage applications, title for dialog do not kill -->
-    <string name="donotkill_app_failed_dlg_title">Limit reached</string>
-    <!-- Manage applications, text for dialog do not kill -->
-    <string name="donotkill_app_failed_dlg_text">You have reached the maximum number of non-killable apps.</string>
 </resources>
