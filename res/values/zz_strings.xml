@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2012-2015 The CyanogenMod Project
+     Copyright (C) 2015 zzpianoman@gmail.com
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -18,5 +18,13 @@
 
     <!-- Volume Wake -->
     <string name="vol_button_wake_title">Volume button wake</string> 
+
+    <!-- Recents Privacy Manager -->
+    <string name="recents_privacy_manager_title">Recents Privacy</string>
+    <string name="recents_privacy_manager_summary">Selectively hide app thumbnails from appearing in recents stack</string>
+    <string name="recents_privacy_reset_title">Reset</string>
+    <string name="recents_privacy_reset_text">Unhide all recents thumbnails?</string>
+    <string name="recents_privacy_prefs_header_title">Select apps to hide</string>
+    <string name="recents_privacy_prefs_header_text">Hidden apps will show as a blank card in the recents stack</string>
 
 </resources>
