@@ -15,18 +15,6 @@
      limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  
-    <!-- Label for lowmemorykiller whitelist apps [CHAR LIMIT=20] -->
-    <string name="app_donotkill_switch_label">Do not kill</string>
-    <!-- [CHAR LIMIT=NONE] Text for lowmemorykiller whitelist to display whitelisted apps -->
-    <string name="filter_apps_donotkill">Do not kill</string>
-
-    <!-- [CHAR LIMIT=NONE] Text for filter option in ManageApps screen to display whitelisted apps -->
-    <string name="filter_apps_donotkill">Do not kill</string>
-    <!-- Manage applications, title for dialog do not kill -->
-    <string name="donotkill_app_failed_dlg_title">Limit reached</string>
-    <!-- Manage applications, text for dialog do not kill -->
-    <string name="donotkill_app_failed_dlg_text">You have reached the maximum number of non-killable apps.</string>
 
     <!-- Sizes for pattern lockscreen -->
     <string name="lock_pattern_size_3" translatable="false">3 \u00d7 3</string>
