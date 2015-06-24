@@ -44,4 +44,10 @@
             android:summary="@string/anonymous_statistics_summary"
             android:fragment="com.android.settings.cmstats.AnonymousStats" >
         </PreferenceScreen>
+
+        <Preference
+            android:key="recents_privacy_manager"
+            android:title="@string/recents_privacy_manager_title"
+            android:summary="@string/recents_privacy_manager_summary"
+            android:fragment="com.android.settings.recentsprivacy.RecentsPrivacyManager" />
 </PreferenceScreen>
