@@ -66,4 +66,6 @@
     <string name="advanced_settings">Advanced settings</string>
     <string name="advanced_settings_summary">Enable more settings options</string>
 
+    <!-- BitSyko Layers  -->
+    <string name="bitsyko_layers">Layers</string>
 </resources>
