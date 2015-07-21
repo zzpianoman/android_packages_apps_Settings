@@ -624,9 +624,9 @@
 
     <!-- User display names for app ops codes -->
     <string-array name="app_ops_labels">
-        <item>Location</item>
-        <item>Location</item>
-        <item>Location</item>
+        <item>Coarse location</item>
+        <item>Fine location</item>
+        <item>Gps</item>
         <item>Vibrate</item>
         <item>Read contacts</item>
         <item>Modify contacts</item>
@@ -634,9 +634,9 @@
         <item>Modify call log</item>
         <item>Read calendar</item>
         <item>Modify calendar</item>
-        <item>Location</item>
+        <item>Neighboring cells</item>
         <item>Post notification</item>
-        <item>Location</item>
+        <item>Neighboring cells</item>
         <item>Call phone</item>
         <item>Read SMS/MMS</item>
         <item>Write SMS/MMS</item>
@@ -665,8 +665,8 @@
         <item>Notification volume</item>
         <item>Bluetooth volume</item>
         <item>Keep awake</item>
-        <item>Location</item>
-        <item>Location</item>
+        <item>Monitor location</item>
+        <item>Monitor location</item>
         <item>Get usage stats</item>
         <item>Mute/unmute microphone</item>
         <item>Project media</item>
