@@ -44,6 +44,7 @@
     <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES"/>
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
     <uses-permission android:name="android.permission.BATTERY_STATS"/>
+    <uses-permission android:name="android.permission.RESET_BATTERY_STATS"/>
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="com.android.launcher.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.MOVE_PACKAGE" />
@@ -74,6 +75,8 @@
     <uses-permission android:name="android.permission.HARDWARE_ABSTRACTION_ACCESS" />
     <uses-permission android:name="com.cyanogen.permission.REQUEST_KILL_SWITCH_OP" />
     <uses-permission android:name="cyanogenmod.permission.FINISH_SETUP" />
+    <uses-permission android:name="android.permission.ACCESS_FINGERPRINT_SERVICE" />
+    <uses-permission android:name="com.cyngn.stats.SEND_ANALYTICS" />
 
     <permission
         android:name="cyanogenmod.permission.PROTECTED_APP"
@@ -1197,6 +1200,7 @@
             android:windowSoftInputMode="stateVisible|adjustResize"/>
 
         <activity android:name="SetupChooseLockGeneric"
+            android:screenOrientation="portrait"
             android:taskAffinity="com.android.wizard"
             android:theme="@style/SetupWizardDisableAppStartingTheme"
             android:label="@string/lock_settings_picker_title">
@@ -1224,6 +1228,13 @@
 
         <activity android:name="SetupChooseLockPattern"
             android:exported="false"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.android.wizard"
+            android:theme="@style/SetupWizardDisableAppStartingTheme" />
+
+        <activity android:name="SetupChooseLockPatternSize"
+            android:exported="false"
+            android:screenOrientation="portrait"
             android:taskAffinity="com.android.wizard"
             android:theme="@style/SetupWizardDisableAppStartingTheme" />
 
@@ -1231,9 +1242,31 @@
 
         <activity android:name="ChooseLockPattern" android:exported="false"/>
         <activity android:name="ManageFingerprints" android:exported="false"/>
+        <activity android:name=".EnrollFingerprint" android:exported="false"
+            android:theme="@style/FingerprintEnrollment"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name="SetupEnrollFingerprint"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.android.wizard"
+            android:theme="@style/SetupWizardDisableAppStartingTheme"
+            android:label="@string/lock_settings_picker_title">
+            <intent-filter>
+                <action android:name="com.android.settings.SETUP_FINGERPRINT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="SetupManageFingerprints"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.android.wizard"
+            android:theme="@style/SetupWizardDisableAppStartingTheme" />
 
         <activity android:name="SetupChooseLockPassword"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:taskAffinity="com.android.wizard"
             android:theme="@style/SetupWizardDisableAppStartingTheme"
             android:windowSoftInputMode="stateVisible|adjustResize" />
@@ -2225,7 +2258,7 @@
             android:label="ReportingServiceManager">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="com.android.settings.action.TRIGGER_REPORT_METRICS" />
             </intent-filter>
         </receiver>
 
@@ -2234,6 +2267,9 @@
             android:exported="false"
             android:name=".cmstats.ReportingService">
         </service>
+
+        <service android:name=".cmstats.StatsUploadJobService"
+                 android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <!-- Watch for ContactsContract.Profile changes and update the user's photo.  -->
         <receiver android:name=".users.ProfileUpdateReceiver">
