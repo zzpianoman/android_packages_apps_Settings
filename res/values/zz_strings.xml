@@ -38,4 +38,7 @@
 
     <!-- QS Tiles -->
     <string name="qs_tile_battery_reserve">Emergency Battery</string>
+
+    <!-- AppOps -->
+    <string name="app_ops_labels_neighboring_cells">Cell/Wifi scan</string>
 </resources>
