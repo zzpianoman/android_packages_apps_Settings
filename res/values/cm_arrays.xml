@@ -240,9 +240,9 @@
     </string-array>
 
     <string-array name="app_ops_labels_cm" translatable="false">
-        <item>@string/app_ops_labels_coarse_location</item>
-        <item>@string/app_ops_labels_fine_location</item>
-        <item>@string/app_ops_labels_gps</item>
+        <item>@string/app_ops_labels_location</item>
+        <item>@string/app_ops_labels_location</item>
+        <item>@string/app_ops_labels_location</item>
         <item>@string/app_ops_labels_vibrate</item>
         <item>@string/app_ops_labels_read_contacts</item>
         <item>@string/app_ops_labels_modify_contacts</item>
@@ -250,9 +250,9 @@
         <item>@string/app_ops_labels_modify_call_log</item>
         <item>@string/app_ops_labels_read_calendar</item>
         <item>@string/app_ops_labels_modify_calendar</item>
-        <item>@string/app_ops_labels_neighboring_cells</item>
+        <item>@string/app_ops_labels_location</item>
         <item>@string/app_ops_labels_notification_toast</item>
-        <item>@string/app_ops_labels_neighboring_cells</item>
+        <item>@string/app_ops_labels_location</item>
         <item>@string/app_ops_labels_call_phone</item>
         <item>@string/app_ops_labels_read_sms_db</item>
         <item>@string/app_ops_labels_write_sms_db</item>
@@ -281,8 +281,8 @@
         <item>@string/app_ops_labels_notification_volume</item>
         <item>@string/app_ops_labels_bluetooth_volume</item>
         <item>@string/app_ops_labels_keep_awake</item>
-        <item>@string/app_ops_labels_monitor_location</item>
-        <item>@string/app_ops_labels_monitor_location</item>
+        <item>@string/app_ops_labels_location</item>
+        <item>@string/app_ops_labels_location</item>
         <item>@string/app_ops_labels_get_usage_stats</item>
         <item>@string/app_ops_labels_mute_unmute_microphone</item>
         <item>@string/app_ops_labels_toast_window</item>

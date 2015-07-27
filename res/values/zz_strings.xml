@@ -38,12 +38,4 @@
 
     <!-- QS Tiles -->
     <string name="qs_tile_battery_reserve">Emergency Battery</string>
-
-    <string name="app_ops_labels_coarse_location">Coarse location</string>
-    <string name="app_ops_labels_fine_location">Fine location</string>
-    <string name="app_ops_labels_gps">Gps</string>
-    <string name="app_ops_labels_neighboring_cells">Cell/Wifi scan</string>
-    <string name="app_ops_labels_monitor_location">Monitor location</string>
-
-
 </resources>
