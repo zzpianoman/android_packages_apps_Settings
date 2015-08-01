@@ -58,7 +58,8 @@ public class ApplicationLightPreference extends DialogPreference {
         mColorValue = DEFAULT_COLOR;
         mOnValue = DEFAULT_TIME;
         mOffValue = DEFAULT_TIME;
-        mOnOffChangeable = true;
+        mOnOffChangeable = context.getResources().getBoolean(
+                com.android.internal.R.bool.config_ledCanPulse);
         init();
     }
 
@@ -73,7 +74,8 @@ public class ApplicationLightPreference extends DialogPreference {
         mColorValue = color;
         mOnValue = onValue;
         mOffValue = offValue;
-        mOnOffChangeable = true;
+        mOnOffChangeable = context.getResources().getBoolean(
+                com.android.internal.R.bool.config_ledCanPulse);
         init();
     }
 
@@ -147,7 +149,7 @@ public class ApplicationLightPreference extends DialogPreference {
             mOnValueView.setText(mapLengthValue(mOnValue));
         }
         if (mOffValueView != null) {
-            if (mOnValue == 1) {
+            if (mOnValue == 1 || !mOnOffChangeable) {
                 mOffValueView.setVisibility(View.GONE);
             } else {
                 mOffValueView.setVisibility(View.VISIBLE);
@@ -225,7 +227,6 @@ public class ApplicationLightPreference extends DialogPreference {
         mColorValue = color;
         mOnValue = onValue;
         mOffValue = offValue;
-        mOnOffChangeable = true;
         updatePreferenceViews();
     }
 
@@ -259,6 +260,9 @@ public class ApplicationLightPreference extends DialogPreference {
     }
 
     private String mapLengthValue(Integer time) {
+        if (!mOnOffChangeable) {
+            return getContext().getString(R.string.pulse_length_always_on);
+        }
         if (time == DEFAULT_TIME) {
             return getContext().getString(R.string.default_time);
         }

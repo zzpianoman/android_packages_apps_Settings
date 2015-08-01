@@ -302,8 +302,6 @@
     <string name="build_date">Build date</string>
     <string name="build_date_default" translatable="false">2014-01-01-0000</string>
 
-    <string name="contributor_cloud_title">Contributors</string>
-
     <!-- About phone screen, service state -->
     <string name="phone_service_state">Voice: <xliff:g id="voice_state">%1$s</xliff:g>, data: <xliff:g id="data_state">%2$s</xliff:g></string>
 
@@ -1274,7 +1272,7 @@
     <!-- Title for number of finger prints enrolled -->
     <string name="fingerprint_title_manage_fingerprints">Manage fingerprints <xliff:g id="finger">%d</xliff:g>/<xliff:g id="max">%d</xliff:g></string>
     <!-- Description for managing fingerprints -->
-    <string name="manage_fingerprints_description">Fingerprints allow you to quickly unlock your phone, confirm purchases and take photos.</string>
+    <string name="manage_fingerprints_description">Fingerprints allow you to quickly unlock your phone and take photos.</string>
     <!-- Fingerprint enrollment introduction title -->
     <string name="fingerprint_enrollment_introduction_title">Find your sensor</string>
     <!-- Fingerprint enrollment introduction instructions -->
@@ -1286,9 +1284,9 @@
     <!-- Fingerprint enrollment error title during first step only -->
     <string name="fingerprint_enrollment_error_title_wrong_sensor">Please try again</string>
     <!-- Fingerprint enrollment error message -->
-    <string name="fingerprint_enrollment_error_message">Place your finger firmly on the fingerprint sensor to ensure an accurate scan. Also make sure you are using the same finger as before. Lift your finger once you feel a vibration.</string>
+    <string name="fingerprint_enrollment_error_message">Place your finger on the fingerprint sensor to ensure an accurate scan. Also make sure you are using the same finger as before. Lift your finger once you feel a vibration.</string>
     <!-- Fingerprint enrollment error instructions -->
-    <string name="fingerprint_enrollment_scan_instructions">Place your finger firmly on the fingerprint sensor to ensure an accurate scan. Lift your finger once you feel a vibration.</string>
+    <string name="fingerprint_enrollment_scan_instructions">Place your finger on the fingerprint sensor to ensure an accurate scan. Lift your finger once you feel a vibration.</string>
     <!-- Fingerprint enrollment half way break title -->
     <string name="fingerprint_enrollment_break_title">Continue with current grip</string>
     <!-- Fingerprint enrollment introduction instructions -->
@@ -1347,5 +1345,10 @@
     <!-- Lock screen setup wizard pattern complexity -->
     <string name="setup_lock_pattern_size_title">Pattern complexity</string>
     <string name="setup_lock_pattern_size_details">How many nodes would you like to use with your pattern? The more nodes, the more complex the pattern can be.</string>
+
+    <!-- LTO download data over wi-fi only -->
+    <string name="lto_download_data_wifi_only">GPS assisted data download</string>
+    <string name="lto_download_data_wifi_only_on">Over any networks</string>
+    <string name="lto_download_data_wifi_only_off">Only over Wi\u2011Fi networks</string>
 
 </resources>
