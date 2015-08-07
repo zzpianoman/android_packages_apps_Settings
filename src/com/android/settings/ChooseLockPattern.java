@@ -174,8 +174,7 @@ public class ChooseLockPattern extends SettingsActivity {
                     if (mUiStage == Stage.NeedToConfirm || mUiStage == Stage.ConfirmWrong) {
                         if (mChosenPattern == null) throw new IllegalStateException(
                                 "null chosen pattern in stage 'need to confirm");
-
-                        if (LockPatternUtils.patternMatches(mChosenPattern, pattern)) {
+                        if (mChosenPattern.equals(pattern)) {
                             updateStage(Stage.ChoiceConfirmed);
                         } else {
                             updateStage(Stage.ConfirmWrong);
@@ -397,7 +396,8 @@ public class ChooseLockPattern extends SettingsActivity {
                 // restore from previous state
                 final String patternString = savedInstanceState.getString(KEY_PATTERN_CHOICE);
                 if (patternString != null) {
-                    mChosenPattern = LockPatternUtils.stringToPattern(patternString, mPatternSize);
+                    LockPatternUtils utils = mChooseLockSettingsHelper.utils();
+                    mChosenPattern = utils.stringToPattern(patternString);
                 }
                 updateStage(Stage.values()[savedInstanceState.getInt(KEY_UI_STAGE)]);
             }
@@ -474,8 +474,11 @@ public class ChooseLockPattern extends SettingsActivity {
             super.onSaveInstanceState(outState);
 
             outState.putInt(KEY_UI_STAGE, mUiStage.ordinal());
-            outState.putString(KEY_PATTERN_CHOICE,
-                    LockPatternUtils.patternToString(mChosenPattern, mPatternSize));
+            if (mChosenPattern != null) {
+                LockPatternUtils utils = mChooseLockSettingsHelper.utils();
+                outState.putString(KEY_PATTERN_CHOICE,
+                        utils.patternToString(mChosenPattern));
+            }
         }
 
         /**
