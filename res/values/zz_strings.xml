@@ -41,4 +41,15 @@
 
     <!-- AppOps -->
     <string name="app_ops_labels_neighboring_cells">Cell/Wifi scan</string>
+
+    <!-- Alarm blocker -->
+    <string name="alarm_blocker">Alarm Blocker</string>
+    <string name="alarm_blocker_title">Enable</string>
+    <string name="alarm_blocker_summary">Activate blocking for checked alarms</string>
+    <string name="alarm_blocker_save">Save</string>
+    <string name="alarm_list_header">Available Alarms</string>
+    <string name="alarm_blocker_reload">Reload</string>
+    <string name="alarm_blocker_warning_title">Proceed with Caution</string>
+    <string name="alarm_blocker_warning">Blocking alarms has the potential to cause instability, crashes or data loss.</string>
+
 </resources>
