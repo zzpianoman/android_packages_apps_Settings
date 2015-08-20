@@ -345,12 +345,7 @@ public class AppOpsCategory extends ListFragment implements
         if (entry != null) {
             ApplicationInfo ai = entry.getAppEntry().getApplicationInfo();
             mCurrentPkgName = ai.packageName;
-            boolean isSystem = ((ai.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
-            if (!isSystem) {
-                startApplicationDetailsActivity();
-            } else {
-                Toast.makeText(getActivity(), getString(R.string.appops_sys_app), Toast.LENGTH_SHORT).show();
-            }
+            startApplicationDetailsActivity();
         }
     }
 

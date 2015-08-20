@@ -414,9 +414,8 @@ public class InstalledAppDetails extends Fragment
         }
 
         // app ops button can be handled the same
-        final boolean isSystem = ((mAppEntry.info.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
-        mAppOpsButton.setEnabled(enabled && !isSystem);
-        if (enabled && !isSystem) {
+        mAppOpsButton.setEnabled(enabled);
+        if (enabled) {
             mAppOpsButton.setOnClickListener(this);
         }
     }
