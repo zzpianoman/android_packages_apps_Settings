@@ -81,6 +81,7 @@ import com.android.settings.applications.ManageApplications;
 import com.android.settings.applications.ProcessStatsUi;
 import com.android.settings.blacklist.BlacklistSettings;
 import com.android.settings.bluetooth.BluetoothSettings;
+import com.android.settings.contributors.ContributorsCloudFragment;
 import com.android.settings.cyanogenmod.DisplayRotation;
 import com.android.settings.dashboard.DashboardCategory;
 import com.android.settings.dashboard.DashboardSummary;
@@ -327,7 +328,8 @@ public class SettingsActivity extends Activity
             NotificationManagerSettings.class.getName(),
             LockScreenSettings.class.getName(),
             LiveDisplay.class.getName(),
-            DisplayRotation.class.getName()
+            DisplayRotation.class.getName(),
+            ContributorsCloudFragment.class.getName()
     };
 
 
@@ -1470,9 +1472,12 @@ public class SettingsActivity extends Activity
      * by default in an overlay.
      */
     public static boolean showAdvancedPreferences(Context context) {
-        return (android.provider.Settings.Secure.getInt(context.getContentResolver(),
-                android.provider.Settings.Secure.ADVANCED_MODE, 1) == 1)
-                && context.getResources().getBoolean(
+        final boolean forceAdvancedMode = context.getResources().getBoolean(
                 com.android.internal.R.bool.config_advancedSettingsMode);
+        if (forceAdvancedMode) {
+            return true;
+        }
+        return (android.provider.Settings.Secure.getInt(context.getContentResolver(),
+                android.provider.Settings.Secure.ADVANCED_MODE, 0) == 1);
     }
 }

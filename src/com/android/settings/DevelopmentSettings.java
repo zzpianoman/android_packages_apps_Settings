@@ -55,6 +55,7 @@ import android.hardware.usb.UsbManager;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
@@ -83,7 +84,8 @@ import java.util.List;
  */
 public class DevelopmentSettings extends SettingsPreferenceFragment
         implements DialogInterface.OnClickListener, DialogInterface.OnDismissListener,
-                OnPreferenceChangeListener, SwitchBar.OnSwitchChangeListener, Indexable {
+                OnPreferenceChangeListener, SwitchBar.OnSwitchChangeListener, Indexable,
+                OnPreferenceClickListener {
     private static final String TAG = "DevelopmentSettings";
 
     /**
@@ -101,7 +103,7 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
     private static final String ADB_TCPIP = "adb_over_network";
     private static final String CLEAR_ADB_KEYS = "clear_adb_keys";
     private static final String ENABLE_TERMINAL = "enable_terminal";
-    private static final String KEEP_SCREEN_ON = "keep_screen_on";
+    private static final String KEEP_SCREEN_ON_MODES = "keep_screen_on_modes";
     private static final String BT_HCI_SNOOP_LOG = "bt_hci_snoop_log";
     private static final String ENABLE_OEM_UNLOCK = "oem_unlock_enable";
     private static final String ALLOW_MOCK_LOCATION = "allow_mock_location";
@@ -212,7 +214,7 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
     private SwitchPreference mEnableTerminal;
     private Preference mBugreport;
     private SwitchPreference mBugreportInPower;
-    private SwitchPreference mKeepScreenOn;
+    private ListPreference mKeepScreenOn;
     private SwitchPreference mBtHciSnoopLog;
     private SwitchPreference mEnableOemUnlock;
     private SwitchPreference mAllowMockLocation;
@@ -245,9 +247,9 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
     private ListPreference mLogdSize;
     private ListPreference mTrackFrameTime;
     private ListPreference mShowNonRectClip;
-    private ListPreference mWindowAnimationScale;
-    private ListPreference mTransitionAnimationScale;
-    private ListPreference mAnimatorDurationScale;
+    private AnimationScalePreference mWindowAnimationScale;
+    private AnimationScalePreference mTransitionAnimationScale;
+    private AnimationScalePreference mAnimatorDurationScale;
     private ListPreference mOverlayDisplayDevices;
     private ListPreference mOpenGLTraces;
 
@@ -334,7 +336,7 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
 
         mBugreport = findPreference(BUGREPORT);
         mBugreportInPower = findAndInitSwitchPref(BUGREPORT_IN_POWER_KEY);
-        mKeepScreenOn = findAndInitSwitchPref(KEEP_SCREEN_ON);
+        mKeepScreenOn = addListPreference(KEEP_SCREEN_ON_MODES);
         mBtHciSnoopLog = findAndInitSwitchPref(BT_HCI_SNOOP_LOG);
         mEnableOemUnlock = findAndInitSwitchPref(ENABLE_OEM_UNLOCK);
         if (!showEnableOemUnlockPreference()) {
@@ -405,9 +407,9 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
         mWifiAllowScansWithTraffic = findAndInitSwitchPref(WIFI_ALLOW_SCAN_WITH_TRAFFIC_KEY);
         mLogdSize = addListPreference(SELECT_LOGD_SIZE_KEY);
 
-        mWindowAnimationScale = addListPreference(WINDOW_ANIMATION_SCALE_KEY);
-        mTransitionAnimationScale = addListPreference(TRANSITION_ANIMATION_SCALE_KEY);
-        mAnimatorDurationScale = addListPreference(ANIMATOR_DURATION_SCALE_KEY);
+        mWindowAnimationScale = findAndInitAnimationScalePreference(WINDOW_ANIMATION_SCALE_KEY);
+        mTransitionAnimationScale = findAndInitAnimationScalePreference(TRANSITION_ANIMATION_SCALE_KEY);
+        mAnimatorDurationScale = findAndInitAnimationScalePreference(ANIMATOR_DURATION_SCALE_KEY);
         mOverlayDisplayDevices = addListPreference(OVERLAY_DISPLAY_DEVICES_KEY);
         mOpenGLTraces = addListPreference(OPENGL_TRACES_KEY);
         mSimulateColorSpace = addListPreference(SIMULATE_COLOR_SPACE);
@@ -461,6 +463,14 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
             pref.setEnabled(false);
             mDisabledPrefs.add(pref);
         }
+    }
+
+    private AnimationScalePreference findAndInitAnimationScalePreference(String key) {
+        AnimationScalePreference pref = (AnimationScalePreference) findPreference(key);
+        pref.setOnPreferenceChangeListener(this);
+        pref.setOnPreferenceClickListener(this);
+        mAllPrefs.add(pref);
+        return pref;
     }
 
     private SwitchPreference findAndInitSwitchPref(String key) {
@@ -604,8 +614,7 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
         }
         updateSwitchPreference(mBugreportInPower, Settings.Secure.getInt(cr,
                 Settings.Secure.BUGREPORT_IN_POWER_MENU, 0) != 0);
-        updateSwitchPreference(mKeepScreenOn, Settings.Global.getInt(cr,
-                Settings.Global.STAY_ON_WHILE_PLUGGED_IN, 0) != 0);
+        updateStayAwakeOptions();
         updateSwitchPreference(mBtHciSnoopLog, Settings.Secure.getInt(cr,
                 Settings.Secure.BLUETOOTH_HCI_LOG, 0) != 0);
         if (mEnableOemUnlock != null) {
@@ -786,6 +795,23 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
     private void resetAdbNotifyOptions() {
         Settings.Secure.putInt(getActivity().getContentResolver(),
                 Settings.Secure.ADB_NOTIFY, 1);
+    }
+
+    private void updateStayAwakeOptions() {
+        int index = Settings.Global.getInt(getActivity().getContentResolver(),
+                Settings.Global.STAY_ON_WHILE_PLUGGED_IN, 0);
+        final String[] values = getResources().getStringArray(R.array.keep_screen_on_values);
+        final String[] summaries = getResources().getStringArray(R.array.keep_screen_on_titles);
+        // The old value contained 0 (disable) or 3 (BATTERY_PLUGGED_AC|BATTERY_PLUGGED_USB)
+        // Currently only have 3 values (0: Not enabled; 1: debugging over usb; >2: charging)
+        // NOTE: If we have newer values, then we need to migrate
+        // this property
+        if (index >= values.length) {
+            index = values.length - 1;
+        }
+        mKeepScreenOn.setValue(values[index]);
+        mKeepScreenOn.setSummary(summaries[index]);
+        mKeepScreenOn.setOnPreferenceChangeListener(this);
     }
 
     private void updateHdcpValues() {
@@ -1109,6 +1135,13 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
         mShowNonRectClip.setSummary(mShowNonRectClip.getEntries()[0]);
     }
 
+    private void writeStayAwakeOptions(Object newValue) {
+        int val = Integer.parseInt((String) newValue);
+        Settings.Global.putInt(getActivity().getContentResolver(),
+                    Settings.Global.STAY_ON_WHILE_PLUGGED_IN, val);
+        updateStayAwakeOptions();
+    }
+
     private void writeShowNonRectClipOptions(Object newValue) {
         SystemProperties.set(HardwareRenderer.DEBUG_SHOW_NON_RECTANGULAR_CLIP_PROPERTY,
                 newValue == null ? "" : newValue.toString());
@@ -1383,23 +1416,13 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
                 getActivity().getContentResolver(), Settings.Global.ALWAYS_FINISH_ACTIVITIES, 0) != 0);
     }
 
-    private void updateAnimationScaleValue(int which, ListPreference pref) {
+    private void updateAnimationScaleValue(int which, AnimationScalePreference pref) {
         try {
             float scale = mWindowManager.getAnimationScale(which);
             if (scale != 1) {
                 mHaveDebugSettings = true;
             }
-            CharSequence[] values = pref.getEntryValues();
-            for (int i=0; i<values.length; i++) {
-                float val = Float.parseFloat(values[i].toString());
-                if (scale <= val) {
-                    pref.setValueIndex(i);
-                    pref.setSummary(pref.getEntries()[i]);
-                    return;
-                }
-            }
-            pref.setValueIndex(values.length-1);
-            pref.setSummary(pref.getEntries()[0]);
+            pref.setScale(scale);
         } catch (RemoteException e) {
         }
     }
@@ -1410,7 +1433,8 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
         updateAnimationScaleValue(2, mAnimatorDurationScale);
     }
 
-    private void writeAnimationScaleOption(int which, ListPreference pref, Object newValue) {
+    private void writeAnimationScaleOption(int which, AnimationScalePreference pref,
+            Object newValue) {
         try {
             float scale = newValue != null ? Float.parseFloat(newValue.toString()) : 1;
             mWindowManager.setAnimationScale(which, scale);
@@ -1595,6 +1619,16 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
     }
 
     @Override
+    public boolean onPreferenceClick(Preference preference) {
+        if (preference == mWindowAnimationScale ||
+                preference == mTransitionAnimationScale ||
+                preference == mAnimatorDurationScale) {
+            ((AnimationScalePreference) preference).click();
+        }
+        return false;
+    }
+
+    @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
         if (Utils.isMonkeyRunning()) {
             return false;
@@ -1657,11 +1691,6 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
             Settings.Secure.putInt(getActivity().getContentResolver(),
                     Settings.Secure.BUGREPORT_IN_POWER_MENU,
                     mBugreportInPower.isChecked() ? 1 : 0);
-        } else if (preference == mKeepScreenOn) {
-            Settings.Global.putInt(getActivity().getContentResolver(),
-                    Settings.Global.STAY_ON_WHILE_PLUGGED_IN,
-                    mKeepScreenOn.isChecked() ?
-                            (BatteryManager.BATTERY_PLUGGED_AC | BatteryManager.BATTERY_PLUGGED_USB) : 0);
         } else if (preference == mBtHciSnoopLog) {
             writeBtHciSnoopLogOptions();
         } else if (preference == mEnableOemUnlock) {
@@ -1813,6 +1842,9 @@ public class DevelopmentSettings extends SettingsPreferenceFragment
             Settings.System.putIntForUser(getActivity().getContentResolver(),
                     Settings.System.SU_INDICATOR, Integer.parseInt((String) newValue),
                     UserHandle.USER_CURRENT);
+            return true;
+        } else if (preference == mKeepScreenOn) {
+            writeStayAwakeOptions(newValue);
             return true;
         }
         return false;

@@ -482,6 +482,7 @@
   <string name="ok">OK</string>
   <string name="profile_menu_delete_title">Elimina</string>
   <string name="profile_action_none">Lascia invariato</string>
+  <string name="profile_action_system">Sistema predefinito</string>
   <string name="profile_action_disable">Disattiva</string>
   <string name="profile_action_enable">Attiva</string>
   <string name="profile_trigger_a2dp_connect">Alla connessione A2DP</string>
@@ -863,7 +864,7 @@
   <string name="sim_card_status_title">Status SIM %d</string>
   <string name="sim_card_lock_settings_title">Impostazioni blocco SIM %d</string>
   <string name="sim_card_summary_empty">SIM non inserita</string>
-  <string name="sim_mobile_network_settings_category_title">Impostazioni rete mobile</string>
+  <string name="sim_mobile_network_settings_category_title">Impostazioni rete cellulare</string>
   <string name="sim_mobile_network_settings_title">Impostazioni SIM %d</string>
   <string name="factory_reset_instructions_title">Dati personali &amp; applicazioni</string>
   <string name="factory_reset_instructions_summary">Questo cancellerà tutti gli account, applicazioni, dati delle app e impostazioni di sistema su questo dispositivo</string>
@@ -935,6 +936,7 @@
   <string name="fingerprint_enrollment_error_title_3">Hmm, qualcosa è andato storto</string>
   <string name="fingerprint_enrollment_error_title_4">Uh oh, riprova</string>
   <string name="fingerprint_enrollment_error_title_5">Whoos, c\'è stato un problema</string>
+  <string name="lockscreen_settings_and_fingerprint">Blocco schermo &amp; impronta digitale</string>
   <string name="menu_stats_reset">Reimposta statistiche</string>
   <string name="reset_stats_msg">Le statistiche delle batteria saranno resettate</string>
   <string name="dock_battery_not_present">Batteria dock non presente</string>
@@ -945,4 +947,22 @@
   <string name="lto_download_data_wifi_only">Download dati GPS-A</string>
   <string name="lto_download_data_wifi_only_on">Da tutte le reti</string>
   <string name="lto_download_data_wifi_only_off">Solo da reti Wi\u2011Fi</string>
+  <string name="keep_screen_on_never">Mai</string>
+  <string name="keep_screen_on_debugging">Durante il debug USB</string>
+  <string name="keep_screen_on_charging">Durante la ricarica</string>
+  <string name="contributors_cloud_fragment_title">Collaboratori</string>
+  <string name="contributors_cloud_loading_message">Caricamento dati collaboratori\u2026</string>
+  <string name="contributors_cloud_failed_message">Impossibile caricare dati collaboratori</string>
+  <string name="contributor_info_menu">Info collaboratore</string>
+  <string name="contributor_info_msg">
+        <![CDATA[<b>Nome:</b> <xliff:g id="name">%1$s</xliff:g><br/><br/>
+                 <b>Nick:</b> <xliff:g id="nick">%2$s</xliff:g><br/><br/>
+                 <b>Commit:</b> <xliff:g id="commits">%3$s</xliff:g><br/><br/>
+                 <b>Numero:</b> <xliff:g id="rank">%4$s</xliff:g>]]></string>
+  <string name="contributions_info_menu">Info contributi</string>
+  <string name="contributions_info_msg">
+        <![CDATA[<b>Totale collaboratori:</b> <xliff:g id="total_contributors">%1$s</xliff:g><br/><br/>
+                 <b>Totale commit:</b> <xliff:g id="total_commits">%2$s</xliff:g><br/><br/>
+                 <b>Ultimo aggiornamento:</b> <xliff:g id="date">%3$s</xliff:g>]]></string>
+  <string name="quick_settings_reset_message">Reimpostare tile rapidi?</string>
 </resources>

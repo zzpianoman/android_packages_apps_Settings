@@ -56,8 +56,8 @@
   <string name="profile_app_group_category_title">Уведомления</string>
   <string name="profile_app_group_item_instructions">Добавить или удалить группы</string>
   <string name="profile_app_group_item_instructions_summary">Изменение настроек уведомлений для групп приложений в этом профиле</string>
-  <string name="profile_entries_on">Включить</string>
-  <string name="profile_entries_off">Выключить</string>
+  <string name="profile_entries_on">Вкл.</string>
+  <string name="profile_entries_off">Выкл.</string>
   <string name="profile_entries_no_override">Оставить без изменения</string>
   <string name="profile_name_title">Название профиля</string>
   <string name="new_profile_name">&lt;новый профиль&gt;</string>
@@ -472,7 +472,7 @@
   <string name="app_ops_labels_su">Суперпользователь</string>
   <string name="app_ops_categories_location">Местоположение</string>
   <string name="app_ops_categories_personal">Личные данные</string>
-  <string name="app_ops_categories_messaging">Сообщения</string>
+  <string name="app_ops_categories_messaging">SMS/MMS</string>
   <string name="app_ops_categories_media">Мультимедиа</string>
   <string name="app_ops_categories_device">Устройство</string>
   <string name="app_ops_categories_bootup">Загрузка</string>
@@ -695,7 +695,7 @@
   <string name="quick_pulldown_summary">%1$s край строки состояния вытягивает быстрые настройки</string>
   <string name="quick_pulldown_summary_left">Левый</string>
   <string name="quick_pulldown_summary_right">Правый</string>
-  <string name="quick_pulldown_off">Выключить</string>
+  <string name="quick_pulldown_off">Выкл.</string>
   <string name="quick_pulldown_left">Левый</string>
   <string name="quick_pulldown_right">Правый</string>
   <string name="status_bar_show_weather_title">Сведения о погоде</string>
@@ -807,7 +807,7 @@
   <string name="category_sounds">Звуки</string>
   <string name="category_interface">Интерфейс</string>
   <string name="category_calibration">Калибровка</string>
-  <string name="display_and_lights">Экран и индикация</string>
+  <string name="display_and_lights">Дисплей</string>
   <string name="notification_manager">Уведомления</string>
   <string name="lockscreen_settings">Экран блокировки</string>
   <string name="category_lights">Индикация</string>
@@ -946,4 +946,22 @@
   <string name="lto_download_data_wifi_only">Вспомогательные данные GPS</string>
   <string name="lto_download_data_wifi_only_on">Скачивать через любые сети</string>
   <string name="lto_download_data_wifi_only_off">Скачивать только через Wi-Fi</string>
+  <string name="keep_screen_on_never">Никогда</string>
+  <string name="keep_screen_on_debugging">При включённой отладке</string>
+  <string name="keep_screen_on_charging">При зарядке</string>
+  <string name="contributors_cloud_fragment_title">Имена разработчиков</string>
+  <string name="contributors_cloud_loading_message">Загрузка данных\u2026</string>
+  <string name="contributors_cloud_failed_message">Не удалось загрузить сведения об участниках проекта</string>
+  <string name="contributor_info_menu">Сведения об участнике</string>
+  <string name="contributor_info_msg">
+        <![CDATA[<b>Имя:</b> <xliff:g id="name">%1$s</xliff:g><br/><br/>
+                 <b>Псевдоним:</b> <xliff:g id="nick">%2$s</xliff:g><br/><br/>
+                 <b>Коммитов:</b> <xliff:g id="commits">%3$s</xliff:g><br/><br/>
+                 <b>Рейтинг:</b> <xliff:g id="rank">%4$s</xliff:g>]]></string>
+  <string name="contributions_info_menu">Общая статистика</string>
+  <string name="contributions_info_msg">
+        <![CDATA[<b>Всего участников проекта:</b> <xliff:g id="total_contributors">%1$s</xliff:g><br/><br/>
+                 <b>Всего коммитов:</b> <xliff:g id="total_commits">%2$s</xliff:g><br/><br/>
+                 <b>Последнее обновление:</b> <xliff:g id="date">%3$s</xliff:g>]]></string>
+  <string name="quick_settings_reset_message">Сбросить настройки плиток?</string>
 </resources>

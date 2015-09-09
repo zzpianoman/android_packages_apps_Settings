@@ -31,6 +31,7 @@
     <timezone id="Europe/London"></timezone>
     <timezone id="Europe/Amsterdam"></timezone>
     <timezone id="Europe/Belgrade"></timezone>
+    <timezone id="Europe/Berlin"></timezone>
     <timezone id="Europe/Brussels"></timezone>
     <timezone id="Europe/Sarajevo"></timezone>
     <timezone id="Africa/Windhoek"></timezone>
@@ -45,7 +46,7 @@
     <timezone id="Africa/Harare"></timezone>
     <timezone id="Asia/Baghdad"></timezone>
     <timezone id="Europe/Moscow"></timezone>
-    <timezone id="Europe/Kiev"></timezone>
+    <timezone id="Europe/Kiev" localizeInPicker="false"></timezone>
     <timezone id="Asia/Kuwait"></timezone>
     <timezone id="Africa/Nairobi"></timezone>
     <timezone id="Asia/Tehran"></timezone>

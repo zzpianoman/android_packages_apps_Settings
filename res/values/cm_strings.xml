@@ -465,6 +465,9 @@
     <string name="notification_light_default_value">Default</string>
     <string name="notification_light_missed_call_title">Missed call</string>
     <string name="notification_light_voicemail_title">Voicemail</string>
+    <string name="notification_light_brightness" translatable="false">@string/brightness</string>
+    <string name="notification_light_screen_on">Lights with screen on</string>
+    <string name="keywords_lights_brightness_level">dim leds brightness</string>
 
     <!-- Sound & notification > Sound section: Title for the option defining the default notification ringtone. [CHAR LIMIT=30] -->
     <string name="notification_ringtone_title_cm">Notification tone</string>
@@ -980,6 +983,7 @@
     <string name="qs_category_title">Quick Settings panel</string>
 
     <string name="qs_brightness_slider_title">Show brightness slider</string>
+    <string name="qs_hide_tiles_with_sensitive_data">Hide sensitive tiles when locked</string>
 
     <string name="qs_order_title">Select and order tiles</string>
     <string name="add_qs">Add new tile</string>
@@ -1006,6 +1010,7 @@
     <string name="qs_tile_lockscreen">Lock screen</string>
     <string name="qs_tile_lte">LTE</string>
     <string name="qs_tile_visualizer" translatable="false">AudioFX</string>
+    <string name="qs_tile_volume_panel">Volume panel</string>
     <string name="qs_tile_screen_timeout">Screen timeout</string>
     <string name="qs_tile_usb_tether">USB tethering</string>
     <string name="qs_tile_heads_up">Heads up</string>
@@ -1162,6 +1167,18 @@
     <string name="live_display_low_power_summary">Adjust display for lowest power consumption without degradation</string>
     <string name="live_display_enhance_color_title">Enhance colors</string>
     <string name="live_display_enhance_color_summary">Improve color vibrance of flesh tones, scenery, and other images</string>
+
+    <string name="live_display_color_profile_title">Color profile</string>
+    <string name="live_display_color_profile_standard_title">Standard</string>
+    <string name="live_display_color_profile_standard_summary">Accurate colors and bright whites</string>
+    <string name="live_display_color_profile_natural_title">Natural</string>
+    <string name="live_display_color_profile_natural_summary">Realistic colors and flesh tones</string>
+    <string name="live_display_color_profile_dynamic_title">Dynamic</string>
+    <string name="live_display_color_profile_dynamic_summary">Enhanced colors and bright whites</string>
+    <string name="live_display_color_profile_cinema_title">Cinema</string>
+    <string name="live_display_color_profile_cinema_summary">Perfect color reproduction for media</string>
+    <string name="live_display_color_profile_astronomy_title">Astronomy</string>
+    <string name="live_display_color_profile_astronomy_summary">Deep red for preserving night vision</string>
 
     <string name="battery_saver_threshold">Battery saver threshold</string>
     <string name="battery_saver_summary">Reduce performance and limit background data</string>
@@ -1355,4 +1372,26 @@
     <string name="lto_download_data_wifi_only_on">Over any networks</string>
     <string name="lto_download_data_wifi_only_off">Only over Wi\u2011Fi networks</string>
 
+    <!-- Keep screen on strings -->
+    <string name="keep_screen_on_never">Never</string>
+    <string name="keep_screen_on_debugging">While USB debugging</string>
+    <string name="keep_screen_on_charging">While charging</string>
+
+    <!-- Contributors cloud activity -->
+    <string name="contributors_cloud_fragment_title">Contributors</string>
+    <string name="contributors_cloud_loading_message">Loading contributors data\u2026</string>
+    <string name="contributors_cloud_failed_message">Cannot load contributors data</string>
+    <string name="contributor_info_menu">Contributor info</string>
+    <string name="contributor_info_msg">
+        <![CDATA[<b>Name:</b> <xliff:g id="name">%1$s</xliff:g><br/><br/>
+                 <b>Nick:</b> <xliff:g id="nick">%2$s</xliff:g><br/><br/>
+                 <b>Commits:</b> <xliff:g id="commits">%3$s</xliff:g><br/><br/>
+                 <b>Rank:</b> <xliff:g id="rank">%4$s</xliff:g>]]></string>
+    <string name="contributions_info_menu">Contributions info</string>
+    <string name="contributions_info_msg">
+        <![CDATA[<b>Total contributors:</b> <xliff:g id="total_contributors">%1$s</xliff:g><br/><br/>
+                 <b>Total commits:</b> <xliff:g id="total_commits">%2$s</xliff:g><br/><br/>
+                 <b>Last update:</b> <xliff:g id="date">%3$s</xliff:g>]]></string>
+
+    <string name="quick_settings_reset_message">Reset quick settings tiles?</string>
 </resources>

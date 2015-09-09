@@ -19,12 +19,12 @@ package com.android.settings.deviceinfo;
 import android.app.ActionBar;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
-import android.hardware.CmHardwareManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
@@ -61,6 +61,8 @@ import com.android.internal.telephony.SubscriptionController;
 import com.android.internal.util.ArrayUtils;
 import com.android.settings.R;
 import com.android.settings.Utils;
+
+import cyanogenmod.hardware.CMHardwareManager;
 
 import java.lang.ref.WeakReference;
 
@@ -413,14 +415,18 @@ public class Status extends PreferenceActivity {
                     ListAdapter listAdapter = (ListAdapter) parent.getAdapter();
                     Preference pref = (Preference) listAdapter.getItem(position);
 
-                    ClipboardManager cm = (ClipboardManager)
-                            getSystemService(Context.CLIPBOARD_SERVICE);
-                    cm.setText(pref.getSummary());
-                    Toast.makeText(
-                        Status.this,
-                        com.android.internal.R.string.text_copied,
-                        Toast.LENGTH_SHORT).show();
-                    return true;
+                    CharSequence summary = pref.getSummary();
+                    if (!TextUtils.isEmpty(summary)) {
+                        ClipboardManager cm = (ClipboardManager)
+                                getSystemService(Context.CLIPBOARD_SERVICE);
+                        cm.setPrimaryClip(ClipData.newPlainText(pref.getTitle(), summary));
+                        Toast.makeText(
+                                Status.this,
+                                com.android.internal.R.string.text_copied,
+                                Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                    return false;
                 }
             });
 
@@ -715,10 +721,9 @@ public class Status extends PreferenceActivity {
     }
 
     private String getSerialNumber() {
-        CmHardwareManager cmHardwareManager =
-                (CmHardwareManager) getSystemService(Context.CMHW_SERVICE);
-        if (cmHardwareManager.isSupported(CmHardwareManager.FEATURE_SERIAL_NUMBER)) {
-            return cmHardwareManager.getSerialNumber();
+        CMHardwareManager hardware = CMHardwareManager.getInstance(this);
+        if (hardware.isSupported(CMHardwareManager.FEATURE_SERIAL_NUMBER)) {
+            return hardware.getSerialNumber();
         } else {
             return Build.SERIAL;
         }
