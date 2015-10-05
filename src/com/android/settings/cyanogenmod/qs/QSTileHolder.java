@@ -180,6 +180,11 @@ public class QSTileHolder {
                 resourceName = "ic_qs_battery_reserve_on";
                 stringId = R.string.qs_tile_battery_reserve;
                 break;
+            case QSConstants.TILE_BATTERY_SAVER:
+                resourceName = "ic_qs_battery_saver_on";
+                stringId = R.string.qs_tile_battery_saver;
+                break;
+
             // Dynamic tiles
             case QSConstants.DYNAMIC_TILE_NEXT_ALARM:
                 resourceName = "ic_dynamic_qs_next_alarm";
