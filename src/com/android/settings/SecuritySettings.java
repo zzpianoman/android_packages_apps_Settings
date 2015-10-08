@@ -95,7 +95,6 @@ public class SecuritySettings extends SettingsPreferenceFragment
     private DevicePolicyManager mDPM;
     private SubscriptionManager mSubscriptionManager;
 
-    private ChooseLockSettingsHelper mChooseLockSettingsHelper;
     private LockPatternUtils mLockPatternUtils;
     private ListPreference mLockAfter;
 
@@ -418,7 +417,6 @@ public class SecuritySettings extends SettingsPreferenceFragment
     public boolean onPreferenceChange(Preference preference, Object value) {
         boolean result = true;
         final String key = preference.getKey();
-        final LockPatternUtils lockPatternUtils = mChooseLockSettingsHelper.utils();
         if (KEY_SHOW_PASSWORD.equals(key)) {
             Settings.System.putInt(getContentResolver(), Settings.System.TEXT_SHOW_PASSWORD,
                     ((Boolean) value) ? 1 : 0);
