@@ -232,6 +232,7 @@
   <string name="update_recovery_off_warning">OPOZORILO: Ko je ta značilnost onemogočena, nameščena obnovitev ne bo posodobljena z nadgradnjami OS-a.\n\nPrihodnje posodobitve OS-a se morda ne bodo namestile z zastarelimi ali prilagojenimi različicami obnovitve.\n\nAli želite onemogočiti to značilnost?</string>
   <string name="mod_version">Različica CyanogenMod</string>
   <string name="mod_version_default">Neznano</string>
+  <string name="security_patch">Raven varnostnega popravka za Android</string>
   <string name="device_model">Model naprave</string>
   <string name="device_name">Ime naprave</string>
   <string name="build_date">Datum izgradnje</string>
@@ -346,6 +347,7 @@
   <string name="notification_light_missed_call_title">Neodgovorjen klic</string>
   <string name="notification_light_voicemail_title">Glasovna pošta</string>
   <string name="notification_light_screen_on">Lučke z vkl. zaslonom</string>
+  <string name="notification_light_use_multiple_leds">Več LED-ov</string>
   <string name="keywords_lights_brightness_level">zatemni svetlost lučk</string>
   <string name="notification_ringtone_title_cm">Ton obvestila</string>
   <string name="headset_connect_player_title">Zaženi program za glasbo</string>
@@ -738,6 +740,7 @@
   <string name="qs_tile_heads_up">Obvestila na zaslonu</string>
   <string name="qs_tile_ambient_display">Okoliški zaslon</string>
   <string name="qs_tile_sync">Sinhroniziraj</string>
+  <string name="qs_tile_battery_saver">Ohranjevalnik baterije</string>
   <string name="qs_dynamic_tile_next_alarm">Naslednja budilka</string>
   <string name="qs_dynamic_tile_ime_selector">Izbirnik IME</string>
   <string name="qs_dynamic_tile_su">Skrbniški dostop</string>
@@ -923,7 +926,7 @@
   <string name="fingerprint_dialog_name_label">Ime prstnega odtisa</string>
   <string name="fingerprint_dialog_title_max_fingers_reached">Največje št. prsnih odtisov dosežno</string>
   <string name="fingerprint_dialog_msg_max_fingers_reached">Vnesete lahko samo <xliff:g id="finger" example="5 fingerprints">%d</xliff:g> prstnih odtisov. Izbrišite obstoječega.</string>
-  <string name="fingerprint_title_manage_fingerprints">Upravljaj s prstnimi odtisi <xliff:g id="finger">%d</xliff:g>/<xliff:g id="max">%d</xliff:g></string>
+  <string name="fingerprint_title_manage_fingerprints">Vnesenih <xliff:g id="finger">%d</xliff:g> od <xliff:g id="max">%d</xliff:g> prstnih odtisov</string>
   <string name="manage_fingerprints_description">Prstni odtisi vam omogočajo hitri odklep telefona in snemanje fotografij.</string>
   <string name="fingerprint_enrollment_introduction_title">Najdi moje tipalo</string>
   <string name="fingerprint_enrollment_introduction_instructions">Tipalo prstnih odtisov je nameščeno na sprednji ali zadnji strani vašega telefona.</string>

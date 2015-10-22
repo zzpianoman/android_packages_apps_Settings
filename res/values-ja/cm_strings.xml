@@ -229,6 +229,7 @@
   <string name="update_recovery_off_warning">警告: この機能を無効にすると、インストールされているリカバリーはOSのアップグレードと同時にはアップデートされなくなります。\n\nカスタムリカバリーバージョンが古いと、今後のOSアップデートがインストールできなくなる恐れがあります。\n\nこの機能を本当に無効にしますか？</string>
   <string name="mod_version">CyanogenModバージョン</string>
   <string name="mod_version_default">不明</string>
+  <string name="security_patch">Androidセキュリティパッチレベル</string>
   <string name="device_model">端末モデル</string>
   <string name="device_name">端末名</string>
   <string name="build_date">ビルド日時</string>
@@ -343,6 +344,7 @@
   <string name="notification_light_missed_call_title">不在着信</string>
   <string name="notification_light_voicemail_title">ボイスメール</string>
   <string name="notification_light_screen_on">画面点灯時に点灯</string>
+  <string name="notification_light_use_multiple_leds">マルチLED</string>
   <string name="keywords_lights_brightness_level">暗く led 明るさ</string>
   <string name="notification_ringtone_title_cm">通知音</string>
   <string name="headset_connect_player_title">音楽アプリを起動</string>
@@ -656,7 +658,7 @@
   <string name="usb_charging_summary">パソコンとのすべてのデータの転送を無効にしてUSBポート経由で端末を充電します</string>
   <string name="usb_sdcard_title">マスストレージ（UMS）</string>
   <string name="usb_sdcard_summary">フラッシュデバイスとしてマウントすることでパソコンとSDカードの間で任意のファイルを転送できます</string>
-  <string name="usb_not_connected">現在USBは切断されています</string>
+  <string name="usb_not_connected">USBは現在切断されています</string>
   <string name="external_storage_turn_on">外部ストレージがONになりました</string>
   <string name="external_storage_turn_off">外部ストレージがOFFになりました</string>
   <string name="stats_collection_title">統計の収集</string>
@@ -685,6 +687,9 @@
   <string name="settings_cmlicense_activity_title">CyanogenMod利用規約</string>
   <string name="lockpattern_settings_enable_error_path_title">間違えたパターンを表示</string>
   <string name="lockpattern_settings_enable_dots_title">パターンのドットを表示</string>
+  <string name="lock_directly_show_password">パスワードの入力欄を直接表示</string>
+  <string name="lock_directly_show_pattern">パターンの入力画面を直接表示</string>
+  <string name="lock_directly_show_pin">PINの入力欄を直接表示</string>
   <string name="unlock_quick_unlock_control_title">クイックロック解除</string>
   <string name="unlock_quick_unlock_control_summary">正しいPIN/パスワードが入力されたときはロックを自動的に解除する</string>
   <string name="unlock_scramble_pin_layout_title">スクランブルレイアウト</string>
@@ -732,6 +737,7 @@
   <string name="qs_tile_heads_up">ヘッドアップ</string>
   <string name="qs_tile_ambient_display">常時オンディスプレイ</string>
   <string name="qs_tile_sync">同期</string>
+  <string name="qs_tile_battery_saver">バッテリーセーバー</string>
   <string name="qs_dynamic_tile_next_alarm">次のアラーム</string>
   <string name="qs_dynamic_tile_ime_selector">入力方法の選択</string>
   <string name="qs_dynamic_tile_su">ルートアクセス</string>
@@ -914,18 +920,18 @@
   <string name="fingerprint_dialog_title_rename">指紋を編集</string>
   <string name="fingerprint_dialog_name_label">指紋の名前</string>
   <string name="fingerprint_dialog_title_max_fingers_reached">指紋の最大数に達しました</string>
-  <string name="fingerprint_dialog_msg_max_fingers_reached"><xliff:g id="finger" example="5 fingerprints">%d</xliff:g>個の指紋のみ登録できます。既存の指紋を削除してください。</string>
-  <string name="fingerprint_title_manage_fingerprints">指紋<xliff:g id="finger">%d</xliff:g>/<xliff:g id="max">%d</xliff:g>を管理</string>
+  <string name="fingerprint_dialog_msg_max_fingers_reached"><xliff:g id="finger" example="5">%d</xliff:g>個までの指紋のみ登録することができます。既存の指紋を削除してください。</string>
+  <string name="fingerprint_title_manage_fingerprints"><xliff:g id="max">%d</xliff:g>個中<xliff:g id="finger">%d</xliff:g>個の指紋が登録されています</string>
   <string name="manage_fingerprints_description">指紋でロック解除や写真撮影を素早くできるようになります。</string>
   <string name="fingerprint_enrollment_introduction_title">センサーを探してください</string>
   <string name="fingerprint_enrollment_introduction_instructions">指紋センサーは携帯電話の前面または背面にあります。</string>
   <string name="fingerprint_enrollment_scan_title">3秒間押し続けてください</string>
-  <string name="fingerprint_enrollment_scan_instructions">セットアップを開始するには人差し指を指紋センサーの上に置いてください。バイブレーションが動作したら指を離してください。</string>
+  <string name="fingerprint_enrollment_scan_instructions">セットアップを開始するには人差し指を指紋センサーの上に置いてください。振動を感じたら指を離してください。</string>
   <string name="fingerprint_enrollment_error_title_wrong_sensor">もう一度お試しください</string>
-  <string name="fingerprint_enrollment_error_message">正確にスキャンできるように指を指紋センサーに置いてください。前回と同じ指を使用してください。バイブレーションが動作したら指を離してください。</string>
-  <string name="fingerprint_enrollment_scan_instructions">セットアップを開始するには人差し指を指紋センサーの上に置いてください。バイブレーションが動作したら指を離してください。</string>
+  <string name="fingerprint_enrollment_error_message">正確にスキャンできるように指を指紋センサーに置いてください。前回と同じ指を使用してください。振動を感じたら指を離してください。</string>
+  <string name="fingerprint_enrollment_scan_instructions">セットアップを開始するには人差し指を指紋センサーの上に置いてください。振動を感じたら指を離してください。</string>
   <string name="fingerprint_enrollment_break_title">このまま続ける</string>
-  <string name="fingerprint_enrollment_break_instructions">続けて指の側面をキャプチャしてください。バイブレーションが動作したら指を離してください。</string>
+  <string name="fingerprint_enrollment_break_instructions">続けて指の側面をキャプチャしてください。振動を感じたら指を離してください。</string>
   <string name="fingerprint_enrollment_finished_title">指紋を追加しました。</string>
   <string name="fingerprint_enrollment_finished_message">指紋で画面のロックを解除したり、カメラで自撮りできるようになりました。</string>
   <string name="fingerprint_enrollment_found_it_label">見つかりました</string>

@@ -230,6 +230,7 @@
   <string name="update_recovery_off_warning">ADVERTENCIA: Con esta característica desactivada, el recovery instalado no se actualizará con las actualizaciones del sistema.\n\nVersiones futuras del sistema podrían no instalarse con un recovery no actualizado o no compatible.\n\n¿Deseas realmente desactivar esta característica?</string>
   <string name="mod_version">Versión de CyanogenMod</string>
   <string name="mod_version_default">Desconocida</string>
+  <string name="security_patch">Nivel de parche de seguridad de Android</string>
   <string name="device_model">Modelo del dispositivo</string>
   <string name="device_name">Nombre del terminal</string>
   <string name="build_date">Fecha de compilación</string>
@@ -249,6 +250,7 @@
   <string name="privacy_guard_reset_text">¿Restablecer permisos?</string>
   <string name="privacy_guard_help_text">En esta pantalla puedes elegir las aplicaciones para las que se activará Privacidad simplemente tocando sobre ellas. Las aplicaciones seleccionadas no podrán acceder a tu información personal, como contactos, mensajes o registro de llamadas. Realiza una pulsación prolongada para mostrar la pantalla de detalles de la aplicación.\n\nLas aplicaciones del sistema no se muestran por defecto, pero pueden mostrarse seleccionando la opción de menú correspondiente.</string>
   <string name="privacy_guard_manager_show_system_apps">Aplicaciones del sistema</string>
+  <string name="privacy_guard_notification_title">Mostrar notificación</string>
   <string name="app_ops_btn_text">Modificar</string>
   <string name="increasing_ring_volume_option_title">Volumen de timbre ascendente</string>
   <string name="increasing_ring_min_volume_title">Volumen inicial</string>
@@ -685,6 +687,8 @@
   <string name="settings_cmlicense_activity_title">Licencia de CyanogenMod</string>
   <string name="lockpattern_settings_enable_error_path_title">Mostrar patrón erróneo</string>
   <string name="lockpattern_settings_enable_dots_title">Mostrar puntos de patrón</string>
+  <string name="lock_directly_show_password">Mostrar directamente la contraseña</string>
+  <string name="lock_directly_show_pattern">Mostrar directamente el patrón</string>
   <string name="unlock_quick_unlock_control_title">Desbloqueo rápido</string>
   <string name="unlock_quick_unlock_control_summary">Desbloquear automáticamente cuando se introduce el PIN/clave correcto</string>
   <string name="unlock_scramble_pin_layout_title">Disposición aleatoria</string>
@@ -732,6 +736,7 @@
   <string name="qs_tile_heads_up">Notificaciones emergentes</string>
   <string name="qs_tile_ambient_display">Pantalla ambiente</string>
   <string name="qs_tile_sync">Sincronizar</string>
+  <string name="qs_tile_battery_saver">Modo de ahorro de batería</string>
   <string name="qs_dynamic_tile_next_alarm">Próxima alarma</string>
   <string name="qs_dynamic_tile_ime_selector">Selector IME</string>
   <string name="qs_dynamic_tile_su">Acceso privilegiado</string>
@@ -914,8 +919,6 @@
   <string name="fingerprint_dialog_title_rename">Editar huella digital</string>
   <string name="fingerprint_dialog_name_label">Nombre para la huella digital</string>
   <string name="fingerprint_dialog_title_max_fingers_reached">Máximo de huellas digitales alcanzado</string>
-  <string name="fingerprint_dialog_msg_max_fingers_reached">Sólo pueden guardarse <xliff:g id="finger" example="5 fingerprints">%d </xliff:g> huellas digitales. Borra una huella digital existente.</string>
-  <string name="fingerprint_title_manage_fingerprints">Gestionando <xliff:g id="finger">%d </xliff:g> / <xliff:g id="max"> %d </xliff:g> huellas digitales</string>
   <string name="manage_fingerprints_description">El uso de huellas digitales te permitirá desbloquear tu teléfono y tomar fotos rápidamente.</string>
   <string name="fingerprint_enrollment_introduction_title">Localiza el sensor</string>
   <string name="fingerprint_enrollment_introduction_instructions">El sensor de huella dactilar se encuentra en la parte delantera o trasera del teléfono.</string>

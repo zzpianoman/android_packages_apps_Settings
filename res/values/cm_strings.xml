@@ -293,6 +293,9 @@
     <string name="mod_version">CyanogenMod version</string>
     <string name="mod_version_default">Unknown</string>
 
+    <!-- About phone screen, status item label  [CHAR LIMIT=60] -->
+    <string name="security_patch">Android security patch level</string>
+
     <!-- About phone screen, Device model -->
     <string name="device_model">Device model</string>
     <!-- About phone screen, Device name -->
@@ -468,6 +471,7 @@
     <string name="notification_light_voicemail_title">Voicemail</string>
     <string name="notification_light_brightness" translatable="false">@string/brightness</string>
     <string name="notification_light_screen_on">Lights with screen on</string>
+    <string name="notification_light_use_multiple_leds">Multiple LEDs</string>
     <string name="keywords_lights_brightness_level">dim leds brightness</string>
 
     <!-- Sound & notification > Sound section: Title for the option defining the default notification ringtone. [CHAR LIMIT=30] -->
@@ -1294,9 +1298,9 @@
     <!-- Title for dialog that shows when the user cannot add anymore fingers -->
     <string name="fingerprint_dialog_title_max_fingers_reached">Max fingerprints reached</string>
     <!-- Message for dialog that shows when the user cannot add anymore fingers -->
-    <string name="fingerprint_dialog_msg_max_fingers_reached">You can only enroll <xliff:g id="finger" example="5 fingerprints">%d</xliff:g> fingerprints. Delete an existing fingerprint.</string>
+    <string name="fingerprint_dialog_msg_max_fingers_reached">You can only enroll <xliff:g id="finger" example="5">%d</xliff:g> fingerprints. Delete an existing fingerprint.</string>
     <!-- Title for number of finger prints enrolled -->
-    <string name="fingerprint_title_manage_fingerprints">Manage fingerprints <xliff:g id="finger">%d</xliff:g>/<xliff:g id="max">%d</xliff:g></string>
+    <string name="fingerprint_title_manage_fingerprints"><xliff:g id="finger">%d</xliff:g> of <xliff:g id="max">%d</xliff:g> fingerprints enrolled</string>
     <!-- Description for managing fingerprints -->
     <string name="manage_fingerprints_description">Fingerprints allow you to quickly unlock your phone and take photos.</string>
     <!-- Fingerprint enrollment introduction title -->
