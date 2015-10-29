@@ -114,7 +114,6 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
     private SwitchPreference mCameraGesturePreference;
     private SwitchPreference mCameraDoubleTapPowerGesturePreference;
 
-    private SwitchPreference mTapToWake;
     private SwitchPreference mWakeWhenPluggedOrUnplugged;
 
     private ContentObserver mAccelerometerRotationObserver =
@@ -172,14 +171,20 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
             mAutoBrightnessPreference = (SwitchPreference) findPreference(KEY_AUTO_BRIGHTNESS);
             mAutoBrightnessPreference.setOnPreferenceChangeListener(this);
         } else {
-            removePreference(KEY_AUTO_BRIGHTNESS);
+            if (mAutoBrightnessPreference != null) {
+                removePreference(KEY_AUTO_BRIGHTNESS);
+                mAutoBrightnessPreference = null;
+            }
         }
 
         if (isLiftToWakeAvailable(activity)) {
             mLiftToWakePreference = (SwitchPreference) findPreference(KEY_LIFT_TO_WAKE);
             mLiftToWakePreference.setOnPreferenceChangeListener(this);
         } else {
-            removePreference(KEY_LIFT_TO_WAKE);
+            if (mLiftToWakePreference != null) {
+                removePreference(KEY_LIFT_TO_WAKE);
+                mLiftToWakePreference = null;
+            }
         }
 
         if (isDozeAvailable(activity)) {
@@ -516,7 +521,7 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-         if (preference == mWakeWhenPluggedOrUnplugged) {
+        if (preference == mWakeWhenPluggedOrUnplugged) {
             Settings.Global.putInt(getContentResolver(),
                     Settings.Global.WAKE_WHEN_PLUGGED_OR_UNPLUGGED,
                     mWakeWhenPluggedOrUnplugged.isChecked() ? 1 : 0);
