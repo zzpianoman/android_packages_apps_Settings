@@ -23,6 +23,10 @@
     <string name="dialog_delete_title">Delete</string>
     <string name="dialog_delete_message">Remove selected item?</string>
 
+    <!-- About phone screen, Build date -->
+    <string name="build_date">Build date</string>
+    <string name="build_date_default">Unknown</string>
+
     <!-- Values for the notification light pulse spinners -->
     <string name="pulse_length_always_on">Always on</string>
     <string name="pulse_length_very_short">Very short</string>
