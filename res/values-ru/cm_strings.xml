@@ -132,8 +132,9 @@
   <string name="volbtn_cursor_control_on_reverse">Кнопка «+» двигает курсор вправо, «-» — влево</string>
   <string name="swap_volume_buttons_title">Автоповорот</string>
   <string name="swap_volume_buttons_summary">Менять назначение кнопок регулировки громкости согласно ориентации экрана</string>
-  <string name="volume_keys_control_ring_stream_title">Изменять громкость рингтона кнопками</string>
-  <string name="volume_keys_control_ring_stream_summary">Если включено, кнопки громкости меняют громкость рингтона. Если выключено — громкость мультимедиа.</string>
+  <string name="volume_keys_control_ring_stream_title">Регулировка громкости рингтона</string>
+  <string name="volume_keys_control_ring_stream_summary_on">Кнопки громкости регулируют громкость звонка</string>
+  <string name="volume_keys_control_ring_stream_summary_off">Кнопки громкости регулируют громкость мультимедиа</string>
   <string name="power_end_call_title">Завершение вызова</string>
   <string name="power_end_call_summary">Завершать вызов нажатием кнопки питания</string>
   <string name="button_wake_title">Выход из режима сна</string>
@@ -231,7 +232,6 @@
   <string name="update_recovery_off_warning">Когда эта функция отключена, прошивка режима восстановления всегда будет оставаться неизменной.\n\nНекоторые обновления ОС могут не устанавливаться при использовании устаревших или пользовательских версий раздела Recovery.\n\nОтключить использование этой функции?</string>
   <string name="mod_version">Версия CyanogenMod</string>
   <string name="mod_version_default">Неизвестно</string>
-  <string name="security_patch">Обновление системы безопасности</string>
   <string name="device_model">Модель устройства</string>
   <string name="device_name">Имя устройства</string>
   <string name="build_date">Дата сборки</string>
@@ -779,6 +779,7 @@
   <string name="lockscreen_message">Нажмите значок слева или справа для изменения ярлыка экрана блокировки.</string>
   <string name="lockscreen_choose_action_title">Выберите действие</string>
   <string name="lockscreen_visualizer_title">Визуализация спектра музыки</string>
+  <string name="nfc_title_category">Бесконтактная связь (NFC)</string>
   <string name="whisperpush_title">Технология WhisperPush</string>
   <string name="whisperpush_summary">Настройка шифрования SMS-сообщений</string>
   <string name="navigation_ring_title">Ярлыки навигационного кольца</string>
@@ -829,7 +830,8 @@
   <string name="interruptions_ignore_while_media_title">Не приглушать звук</string>
   <string name="interruptions_ignore_while_media_summary">Не снижать громкость воспроизведения мультимедиа при получении уведомлений</string>
   <string name="none_is_silent_title">Никогда не приглушать будильник</string>
-  <string name="none_is_silent_summary">В беззвучном режиме будет включаться только сигнал будильника</string>
+  <string name="none_is_silent_summary_on">Режим «Без звука»: будильник звучит как обычно</string>
+  <string name="none_is_silent_summary_off">Режим «Не беспокоить»: звук будильника отключается</string>
   <string name="allow_lights_title">Включить индикатор событий</string>
   <string name="live_display_summary">Подстраивать экран на основе времени суток и освещения, чтобы улучшить читаемость и снизить усталость глаз</string>
   <string name="live_display_mode">Режим экрана</string>
@@ -855,6 +857,8 @@
   <string name="live_display_color_profile_cinema_summary">Идеальная цветопередача для просмотра фильмов</string>
   <string name="live_display_color_profile_astronomy_title">Астрономия</string>
   <string name="live_display_color_profile_astronomy_summary">Глубокий красный для сохранения видимости ночью</string>
+  <string name="live_display_color_profile_basic_title">Основной</string>
+  <string name="live_display_color_profile_basic_summary">Используйте дисплей некалиброванный</string>
   <string name="battery_saver_threshold">Автом. энергосбережение</string>
   <string name="battery_saver_summary">Снизить производительность и ограничить фоновую передачу данных</string>
   <string name="battery_saver_summary_unavailable">Недоступно во время зарядки</string>
@@ -897,6 +901,11 @@
   <string name="factory_reset_erase_sd_card_summary">Удалить с SD-карты все данные, включая музыку и фотографии</string>
   <string name="factory_reset_warning_text_reset_now">УДАЛИТЬ ВСЁ</string>
   <string name="factory_reset_warning_text_message">Все добавленные аккаунты, приложения, их данные и настройки будут удалены с этого устройства. Отменить это действие будет невозможно.</string>
+  <string name="wifi_show_all">Все сети</string>
+  <string name="wifi_show_protected">Защищённые сети</string>
+  <string name="wifi_show_open">Открытые сети</string>
+  <string name="wifi_empty_list_protected">Не найдено защищённых сетей Wi-Fi</string>
+  <string name="wifi_empty_list_open">Не найдено открытых сетей Wi-Fi</string>
   <string name="wifi_setting_countrycode_title">Код региона Wi-Fi</string>
   <string name="wifi_setting_countrycode_summary">Укажите код региона Wi-Fi</string>
   <string name="wifi_setting_countrycode_error">При настройке кода региона Wi-Fi возникла неполадка.</string>

@@ -119,7 +119,7 @@
   <string name="hardware_keys_action_sleep">画面を消灯</string>
   <string name="hardware_keys_action_last_app">前回のアプリ</string>
   <string name="camera_sleep_on_release_title">画面の覗き見</string>
-  <string name="camera_sleep_on_release_summary">ボタンを半押しで押し続けている間だけ画面を点灯させる</string>
+  <string name="camera_sleep_on_release_summary">ボタンを半押しし続けている間だけ画面を点灯する</string>
   <string name="camera_launch_title">カメラを起動</string>
   <string name="camera_launch_summary">長押しして離したときにカメラを起動する</string>
   <string name="volbtn_music_controls_title">再生コントロール</string>
@@ -130,8 +130,9 @@
   <string name="volbtn_cursor_control_on_reverse">音量を上げる/下げるボタンでカーソルを右/左に移動する</string>
   <string name="swap_volume_buttons_title">再配置</string>
   <string name="swap_volume_buttons_summary">画面回転時に音量ボタンを入れ替える</string>
-  <string name="volume_keys_control_ring_stream_title">音量キーで着信音量をコントロール</string>
-  <string name="volume_keys_control_ring_stream_summary">ONにすると音量キーで着信音量をコントロールします。OFFにすると音量キーでメディア音量をコントロールします。</string>
+  <string name="volume_keys_control_ring_stream_title">着信音量の制御</string>
+  <string name="volume_keys_control_ring_stream_summary_on">音量キーで着信音量をコントロールする</string>
+  <string name="volume_keys_control_ring_stream_summary_off">音量キーでメディア音量をコントロールする</string>
   <string name="power_end_call_title">通話を終了</string>
   <string name="power_end_call_summary">電源ボタンを押して通話を終了する</string>
   <string name="button_wake_title">端末をスリープ解除</string>
@@ -218,7 +219,7 @@
   <string name="sms_security_check_limit_summary_none">アプリは許可無くメッセージを送信することはできません</string>
   <string name="sms_security_check_limit_none">なし</string>
   <string name="spam_added_title">%1$sに追加しました</string>
-  <string name="spam_last_blocked_title">%1$sを前回ブロックしました</string>
+  <string name="spam_last_blocked_title">最後にブロックしたのは%1$sです</string>
   <string name="block_notifications_title">通知のフィルタリング</string>
   <string name="block_notifications_summary">無視する通知やフィルターを管理する</string>
   <string name="no_filters_title">フィルターが設定されていません</string>
@@ -229,14 +230,13 @@
   <string name="update_recovery_off_warning">警告: この機能を無効にすると、インストールされているリカバリーはOSのアップグレードと同時にはアップデートされなくなります。\n\nカスタムリカバリーバージョンが古いと、今後のOSアップデートがインストールできなくなる恐れがあります。\n\nこの機能を本当に無効にしますか？</string>
   <string name="mod_version">CyanogenModバージョン</string>
   <string name="mod_version_default">不明</string>
-  <string name="security_patch">Androidセキュリティパッチレベル</string>
   <string name="device_model">端末モデル</string>
   <string name="device_name">端末名</string>
   <string name="build_date">ビルド日時</string>
   <string name="phone_service_state">音声: <xliff:g id="voice_state">%1$s</xliff:g> データ: <xliff:g id="data_state">%2$s</xliff:g></string>
-  <string name="double_tap_to_wake_title">ダブルタップでスリープ解除</string>
-  <string name="double_tap_to_wake_summary">画面をダブルタップしてディスプレイを点灯させる</string>
-  <string name="proximity_wake_title">誤起動を防止</string>
+  <string name="double_tap_to_wake_title">ダブルタップしてスリープ解除</string>
+  <string name="double_tap_to_wake_summary">画面をダブルタップしてディスプレイを点灯する</string>
+  <string name="proximity_wake_title">誤作動を防止</string>
   <string name="proximity_wake_summary">画面をスリープ解除する前に接近センサーを確認する</string>
   <string name="privacy_settings_cyanogenmod_title">プライバシー</string>
   <string name="privacy_guard_default_title">デフォルトで有効化</string>
@@ -249,7 +249,7 @@
   <string name="privacy_guard_reset_text">権限をリセットしますか？</string>
   <string name="privacy_guard_help_text">この画面では、どのアプリでプライバシーガードを有効にするかタップするだけで選択できます。選択されたアプリは連絡先、メッセージ、通話履歴のような個人データにアクセスできなくなります。エントリーを長押しするとそのアプリの詳細画面が開きます。\n\n内蔵アプリはデフォルトでは表示されませんが、それぞれのメニューオプションから選択することで表示させることができます。</string>
   <string name="privacy_guard_manager_show_system_apps">内蔵アプリを表示</string>
-  <string name="privacy_guard_notification_title">通知の表示</string>
+  <string name="privacy_guard_notification_title">通知を表示</string>
   <string name="app_ops_btn_text">変更</string>
   <string name="increasing_ring_volume_option_title">着信音量の増幅</string>
   <string name="increasing_ring_min_volume_title">開始音量</string>
@@ -266,10 +266,10 @@
   <string name="device_hostname">端末のホスト名</string>
   <string name="development_shortcut_title">開発用ショートカット</string>
   <string name="development_shortcut_summary">最近使ったアプリ一覧でアプリの管理のショートカットを有効にする</string>
-  <string name="double_tap_to_sleep_title">ダブルタップでスリープ</string>
-  <string name="double_tap_to_sleep_summary">ステータスバーをダブルタップしてディスプレイを消灯させる</string>
+  <string name="double_tap_to_sleep_title">ダブルタップしてスリープ</string>
+  <string name="double_tap_to_sleep_summary">ステータスバーをダブルタップしてディスプレイを消灯する</string>
   <string name="wake_when_plugged_or_unplugged_title">接続時にスリープ解除</string>
-  <string name="wake_when_plugged_or_unplugged_summary">電源を接続または切断したときに画面を点灯させる</string>
+  <string name="wake_when_plugged_or_unplugged_summary">電源を接続または切断したときに画面を点灯する</string>
   <string name="kill_app_longpress_back">戻るボタンでアプリを終了</string>
   <string name="kill_app_longpress_back_summary">戻るボタンの長押しでフォアグラウンドアプリを終了する</string>
   <string name="disable_navkeys_title">スクリーンナビゲーションバーを有効化</string>
@@ -523,7 +523,7 @@
   <string name="profile_setup_actions_description">このプロファイルが有効になったときの動作を設定してください</string>
   <string name="app_ops_entry_summary"><xliff:g id="op">%1$s</xliff:g>（<xliff:g id="count">%2$s</xliff:g>使用）</string>
   <string name="app_ops_allowed_count"><xliff:g id="count" example="2 times">%s</xliff:g>許可しました</string>
-  <string name="app_ops_ignored_count"><xliff:g id="count" example="2 times">%s</xliff:g>拒否しました</string>
+  <string name="app_ops_ignored_count"><xliff:g id="count" example="2 times">%s</xliff:g>回拒否しました</string>
   <string name="app_ops_both_count"><xliff:g id="count">%1$s</xliff:g>許可、<xliff:g id="count">%2$s</xliff:g>拒否しました</string>
   <string name="app_ops_show_user_apps">ユーザーアプリを表示</string>
   <string name="app_ops_show_system_apps">内蔵アプリを表示</string>
@@ -658,7 +658,7 @@
   <string name="usb_charging_summary">パソコンとのすべてのデータの転送を無効にしてUSBポート経由で端末を充電します</string>
   <string name="usb_sdcard_title">マスストレージ（UMS）</string>
   <string name="usb_sdcard_summary">フラッシュデバイスとしてマウントすることでパソコンとSDカードの間で任意のファイルを転送できます</string>
-  <string name="usb_not_connected">USBは現在切断されています</string>
+  <string name="usb_not_connected">現在USBは切断されています</string>
   <string name="external_storage_turn_on">外部ストレージがONになりました</string>
   <string name="external_storage_turn_off">外部ストレージがOFFになりました</string>
   <string name="stats_collection_title">統計の収集</string>
@@ -708,7 +708,7 @@
   <string name="status_bar_show_weather_summary">クイック設定パネルの上に天気を表示する</string>
   <string name="qs_category_title">クイック設定パネル</string>
   <string name="qs_brightness_slider_title">明るさスライダーを表示</string>
-  <string name="qs_hide_tiles_with_sensitive_data">ロック時に機密性の高いタイルを非表示</string>
+  <string name="qs_hide_tiles_with_sensitive_data">ロック時にプライベートなタイルを非表示</string>
   <string name="qs_order_title">タイルの選択と並べ替え</string>
   <string name="add_qs">新しいタイルを追加</string>
   <string name="qs_action_delete">削除</string>
@@ -777,6 +777,7 @@
   <string name="lockscreen_message">左右のアイコンをタップしてロック画面のショートカットを再割り当てします。</string>
   <string name="lockscreen_choose_action_title">動作を選択</string>
   <string name="lockscreen_visualizer_title">音楽ビジュアライザを表示</string>
+  <string name="nfc_title_category">NFC</string>
   <string name="whisperpush_title">WhisperPush</string>
   <string name="whisperpush_summary">セキュアSMSの設定を管理する</string>
   <string name="navigation_ring_title">ナビゲーションリングのターゲット</string>
@@ -827,7 +828,8 @@
   <string name="interruptions_ignore_while_media_title">オーディオダッキングを無効化</string>
   <string name="interruptions_ignore_while_media_summary">通知が来たときにメディアの再生音量を下げないようにする</string>
   <string name="none_is_silent_title">アラームをミュートにしない</string>
-  <string name="none_is_silent_summary">サイレントモードでアラームを常に鳴らす</string>
+  <string name="none_is_silent_summary_on">サイレントモードでアラームは無視されません</string>
+  <string name="none_is_silent_summary_off">なしモードでアラームは無視されます</string>
   <string name="allow_lights_title">通知ライトを許可</string>
   <string name="live_display_summary">画面を見やすく目を疲れにくくするために時間と周囲の環境に合わせて画面を最適化する</string>
   <string name="live_display_mode">ディスプレイのモード</string>
@@ -837,7 +839,7 @@
   <string name="live_display_day">昼</string>
   <string name="live_display_night">夜</string>
   <string name="live_display_outdoor_mode_title">自動屋外モード</string>
-  <string name="live_display_outdoor_mode_summary">太陽光照射下で明るさと彩度を自動的に向上させる</string>
+  <string name="live_display_outdoor_mode_summary">明るい日差しが照射する環境下で明るさと彩度を自動的に向上させる</string>
   <string name="live_display_low_power_title">消費電力を削減</string>
   <string name="live_display_low_power_summary">性能を低下させずにディスプレイを最低の消費電力に調整する</string>
   <string name="live_display_enhance_color_title">色を補正</string>
@@ -895,6 +897,11 @@
   <string name="factory_reset_erase_sd_card_summary">音楽や写真を含むSDカードのすべてのデータを消去する</string>
   <string name="factory_reset_warning_text_reset_now">今すぐリセット</string>
   <string name="factory_reset_warning_text_message">この端末からすべてのアカウント、アプリ、アプリのデータ、システム設定が消去されます。この操作は元に戻せません。</string>
+  <string name="wifi_show_all">すべて表示</string>
+  <string name="wifi_show_protected">保護されたネットワークを表示</string>
+  <string name="wifi_show_open">オープンネットワークを表示</string>
+  <string name="wifi_empty_list_protected">保護されたWi\u2011Fiネットワークがありません</string>
+  <string name="wifi_empty_list_open">オープンWi\u2011Fiネットワークがありません</string>
   <string name="wifi_setting_countrycode_title">Wi\u2011Fi地域コード</string>
   <string name="wifi_setting_countrycode_summary">Wi\u2011Fiの地域コードを指定する</string>
   <string name="wifi_setting_countrycode_error">地域コードの設定中に問題が発生しました。</string>

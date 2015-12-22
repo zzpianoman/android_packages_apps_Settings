@@ -17,12 +17,11 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <plurals name="backlight_timeout_time">
-    <item quantity="other"><xliff:g id="seconds">%d</xliff:g> วินาที</item>
+    <item quantity="one"><xliff:g id="seconds">%d</xliff:g> segundo</item>
+    <item quantity="other"><xliff:g id="seconds">%d</xliff:g> segundos</item>
   </plurals>
   <plurals name="app_ops_count">
-    <item quantity="other">%d ครั้ง</item>
-  </plurals>
-  <plurals name="qs_tiles_summary">
-    <item quantity="other">%d ไทด์ถูกกำหนด</item>
+    <item quantity="one">Unha vez</item>
+    <item quantity="other">%d veces</item>
   </plurals>
 </resources>

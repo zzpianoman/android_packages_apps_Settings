@@ -131,8 +131,9 @@
   <string name="volbtn_cursor_control_on_reverse">Lydstyrke op/ned flytter markør højre/venstre</string>
   <string name="swap_volume_buttons_title">Omlæg</string>
   <string name="swap_volume_buttons_summary">Ombyt lydstyrkeknapper, når skærmen roteres</string>
-  <string name="volume_keys_control_ring_stream_title">Lydstyrkeknapper styrer ringelydstyrke</string>
-  <string name="volume_keys_control_ring_stream_summary">Hvis til, styrer lydstyrkeknapper lydstyrken for ringetonen. Hvis fra, styrer lydstyrkeknapper lydstyrken for medier.</string>
+  <string name="volume_keys_control_ring_stream_title">Regulere lydstyrke for ringetone</string>
+  <string name="volume_keys_control_ring_stream_summary_on">Lydstyrkeknapper regulerer lydstyrken for ringetone</string>
+  <string name="volume_keys_control_ring_stream_summary_off">Lydstyrketasterne regulerer medielydstyrken</string>
   <string name="power_end_call_title">Afslut opkald</string>
   <string name="power_end_call_summary">At trykke på strømknappen slutter det aktuelle opkald</string>
   <string name="button_wake_title">Væk enheden</string>
@@ -230,7 +231,6 @@
   <string name="update_recovery_off_warning">ARVARSEL: Med denne funktion slået fra, vil din \'recovery\' ikke blive opdateret sammen med styresystemet.\n\nFremtidige opdateringer til styresystemet kan måske ikke installeres med en forældet \'recovery\'\n\nVil du virkelig slå denne funktion fra?</string>
   <string name="mod_version">CyanogenMod-version</string>
   <string name="mod_version_default">Ukendt</string>
-  <string name="security_patch">Android sikkerhedsniveau for rettelser</string>
   <string name="device_model">Enhedsmodel</string>
   <string name="device_name">Enhedens navn</string>
   <string name="build_date">Kørselsdato</string>
@@ -778,6 +778,7 @@
   <string name="lockscreen_message">Tryk på et ikon til venstre eller højre for igen at tildele en genvej til skærmlås.</string>
   <string name="lockscreen_choose_action_title">Vælg handling</string>
   <string name="lockscreen_visualizer_title">Vis musikvisualisator</string>
+  <string name="nfc_title_category">NFC</string>
   <string name="whisperpush_title">WhisperPush</string>
   <string name="whisperpush_summary">Administrér indstillinger for sikker SMS.</string>
   <string name="navigation_ring_title">Mål for navigationsring</string>
@@ -828,7 +829,8 @@
   <string name="interruptions_ignore_while_media_title">Undgå lyddæmpning</string>
   <string name="interruptions_ignore_while_media_summary">Reducér ikke lydstyrken, når en meddelelse modtages</string>
   <string name="none_is_silent_title">Sluk aldrig for alarmen</string>
-  <string name="none_is_silent_summary">Alarmen ringer altid i lydløs tilstand</string>
+  <string name="none_is_silent_summary_on">Alarmer vil ikke blive ignoreret i lydløs tilstand</string>
+  <string name="none_is_silent_summary_off">Alarmer vil blive ignoreret i tilstanden ingen</string>
   <string name="allow_lights_title">Tillad notifikationslys</string>
   <string name="live_display_summary">Optimér din skærm baseret på tidspunktet på dagen, samt omgivelserne, for at forbedre læsbarheden og nedsætte anstrengelsen af øjnene</string>
   <string name="live_display_mode">Visningstilstand</string>
@@ -896,6 +898,11 @@
   <string name="factory_reset_erase_sd_card_summary">Slet alle data på SD-kortet, herunder musik og billeder</string>
   <string name="factory_reset_warning_text_reset_now">NULSTIL NU</string>
   <string name="factory_reset_warning_text_message">Alle dine konti, apps, app data og systemindstillinger vil blive fjernet fra denne enhed. Dette kan ikke fortrydes.</string>
+  <string name="wifi_show_all">Vis alt</string>
+  <string name="wifi_show_protected">Vis beskyttede netværk</string>
+  <string name="wifi_show_open">Vis åbne netværk</string>
+  <string name="wifi_empty_list_protected">Ingen beskyttede Wi\u2011Fi netværk</string>
+  <string name="wifi_empty_list_open">Ingen åbne Wi\u2011Fi netværk</string>
   <string name="wifi_setting_countrycode_title">Wi\u2011Fi-regionskode</string>
   <string name="wifi_setting_countrycode_summary">Angiv regionskoden for Wi\u2011Fi</string>
   <string name="wifi_setting_countrycode_error">Der opstod et problem med indstillingen af regionskoden.</string>

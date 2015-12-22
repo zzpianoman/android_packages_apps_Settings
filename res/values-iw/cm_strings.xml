@@ -131,8 +131,9 @@
   <string name="volbtn_cursor_control_on_reverse">עוצמה למעלה/למטה מעבירה את הסמן ימינה/שמאלה</string>
   <string name="swap_volume_buttons_title">כיוון מחדש</string>
   <string name="swap_volume_buttons_summary">החלפת כיוון לחצני העוצמה כאשר המסך מסובב</string>
-  <string name="volume_keys_control_ring_stream_title">מקשי העוצמה שולטים בעוצמת הצלצול</string>
-  <string name="volume_keys_control_ring_stream_summary">אם פעיל, מקשי העוצמה ישלטו בעוצמת הצלצול. אחרת, הם ישלטו בעוצמת המדיה.</string>
+  <string name="volume_keys_control_ring_stream_title">שליטה בעוצמת הצלצול</string>
+  <string name="volume_keys_control_ring_stream_summary_on">מקשי העוצמה שולטים בעוצמת הצלצול</string>
+  <string name="volume_keys_control_ring_stream_summary_off">מקשי העוצמה שולטים בעוצמת המדיה</string>
   <string name="power_end_call_title">סיום שיחה</string>
   <string name="power_end_call_summary">לחיצה על לחצן ההפעלה תסיים את השיחה הנוכחית</string>
   <string name="button_wake_title">הער את המכשיר</string>
@@ -230,7 +231,6 @@
   <string name="update_recovery_off_warning">אזהרה: כשתכונה זו לא מופעלת, ה-Recovery הנוכחי לא יתעדכן עם עדכוני מערכת.\n\nעדכוני מערכת עתידיים לא יותקנו עם גרסה לא עדכנית של ה-Recovery.\n\nהאם לכבות את תכונה זו?</string>
   <string name="mod_version">גרסת CyanogenMod</string>
   <string name="mod_version_default">לא ידוע</string>
-  <string name="security_patch">רמת טלאי אבטחת אנדרואיד</string>
   <string name="device_model">דגם המכשיר</string>
   <string name="device_name">שם המכשיר</string>
   <string name="build_date">תאריך בנייה</string>
@@ -630,7 +630,7 @@
   <string name="usb_media_format_gesture_explanation" product="default">‏עליך לשרטט את קו ביטול הנעילה כדי לאשר שברצונך למחוק את אחסון ה-USB.</string>
   <string name="uicc_media_format_gesture_explanation" product="default">‏עליך לשרטט את קו ביטול הנעילה כדי לאשר שברצונך למחוק את אחסון ה-UICC.</string>
   <string name="internal_sd_format">מחק אחסון מדיה פנימי</string>
-  <string name="internal_sd_format_summary">‏מוחק את כל הנתונים הנמצאים על כרטיס הזיכרון, כגון מוסיקה ותמונות</string>
+  <string name="internal_sd_format_summary">מוחק את כל הנתונים הנמצאים באחסון המדיה הפנימי, כגון מוזיקה ותמונות</string>
   <string name="master_clear_desc_erase_internal_storage">\n\nכדי למחוק מוזיקה, תמונות ונתוני משתמש נוספים, <b>זיכרון המדיה הפנימי</b> צריך להימחק.</string>
   <string name="erase_internal_storage">מחק אחסון מדיה פנימי</string>
   <string name="erase_internal_storage_description">מחק את כל הנתונים באחסון המדיה הפנימי, כגון מוזיקה או תמונות</string>
@@ -777,7 +777,8 @@
   <string name="lockscreen_none_target">ללא</string>
   <string name="lockscreen_message">הקש על סמל בצד שמאל או ימין כדי להקצות מחדש קיצור דרך של מסך הנעילה.</string>
   <string name="lockscreen_choose_action_title">בחר פעולה</string>
-  <string name="lockscreen_visualizer_title">הצג אפקטים בעת השמעת מוסיקה</string>
+  <string name="lockscreen_visualizer_title">הצג אפקטים בעת השמעת מוזיקה</string>
+  <string name="nfc_title_category">NFC</string>
   <string name="whisperpush_title">WhisperPush</string>
   <string name="whisperpush_summary">ניהול הגדרות SMS מאובטח</string>
   <string name="navigation_ring_title">קיצורי דרך בטבעת הניווט</string>
@@ -828,7 +829,8 @@
   <string name="interruptions_ignore_while_media_title">מנע שינוי עוצמת שמע</string>
   <string name="interruptions_ignore_while_media_summary">אל תנמיך את עוצמת המוזיקה כאשר התראה מגיעה</string>
   <string name="none_is_silent_title">לעולם אל תשתיק שעונים מעוררים</string>
-  <string name="none_is_silent_summary">מצב שקט תמיד משמיע שעונים מעוררים</string>
+  <string name="none_is_silent_summary_on">שעונים מעוררים לא יושתקו במצב שקט</string>
+  <string name="none_is_silent_summary_off">שעונים מעוררים יושתקו במצב שקט</string>
   <string name="allow_lights_title">אפשר אורות התראה</string>
   <string name="live_display_summary">התאם את מסך מכשירך בהתאם לשעה ולתנאי הסביבה על מנת לשפר את נוחות הקריאה ולהפחית את עייפות העין</string>
   <string name="live_display_mode">מצב תצוגה</string>
@@ -896,6 +898,11 @@
   <string name="factory_reset_erase_sd_card_summary">מחק את כל הנתונים על כרטיס הזיכרון, כולל מוזיקה ותמונות</string>
   <string name="factory_reset_warning_text_reset_now">אפס עכשיו</string>
   <string name="factory_reset_warning_text_message">כל החשבונות, היישומים (כולל נתוניהם) והגדרות המערכת שלך יוסרו ממכשיר זה. פעולה זו אינה הפיכה.</string>
+  <string name="wifi_show_all">הצג הכל</string>
+  <string name="wifi_show_protected">הצג רשתות מוגנות</string>
+  <string name="wifi_show_open">הצג רשתות פתוחות</string>
+  <string name="wifi_empty_list_protected">אין רשתות Wi\u2011Fi מוגנות</string>
+  <string name="wifi_empty_list_open">אין רשתות Wi\u2011Fi פתוחות</string>
   <string name="wifi_setting_countrycode_title">קוד אזור Wi-Fi</string>
   <string name="wifi_setting_countrycode_summary">ציין קוד אזור עבור Wi-Fi</string>
   <string name="wifi_setting_countrycode_error">אירעה שגיאה בהגדרת הקוד האזורי.</string>
