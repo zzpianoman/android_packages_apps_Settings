@@ -132,6 +132,11 @@
                     android:summary="@string/double_tap_to_sleep_summary"
                     android:defaultValue="true" />
 
+                <com.android.settings.slim.SystemSettingSwitchPreference
+                    android:key="volume_wake_screen"
+                    android:title="@string/vol_button_wake_title"
+                    android:defaultValue="true" />
+
                 <SwitchPreference
                     android:key="wake_when_plugged_or_unplugged"
                     android:title="@string/wake_when_plugged_or_unplugged_title"
