@@ -138,11 +138,6 @@
                     android:summary="@string/wake_when_plugged_or_unplugged_summary"
                     android:defaultValue="false" />
 
-                <SwitchPreference
-                    android:key="adaptive_backlight"
-                    android:title="@string/adaptive_backlight_title"
-                    android:summary="@string/adaptive_backlight_summary"
-                    android:defaultValue="true" />
         </PreferenceScreen>
 
 </PreferenceScreen>
