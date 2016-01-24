@@ -60,6 +60,11 @@ public class AppOpsDetails extends InstrumentedFragment {
     private View mRootView;
     private LinearLayout mOperationsSection;
 
+    private boolean isPlatformSigned() {
+        final int match = mPm.checkSignatures("android", mPackageInfo.packageName);
+        return match >= PackageManager.SIGNATURE_MATCH;
+    }
+
     // Utility method to set application label and icon.
     private void setAppLabelAndIcon(PackageInfo pkgInfo) {
         final View appSnippet = mRootView.findViewById(R.id.app_snippet);
@@ -102,7 +107,12 @@ public class AppOpsDetails extends InstrumentedFragment {
 
         mOperationsSection.removeAllViews();
         String lastPermGroup = "";
+        boolean isPlatformSigned = isPlatformSigned(); 
         for (AppOpsState.OpsTemplate tpl : AppOpsState.ALL_TEMPLATES) {
+            // don't include platform signed apps
+            if (isPlatformSigned) {
+                 continue;
+            }
             List<AppOpsState.AppOpEntry> entries = mState.buildState(tpl,
                     mPackageInfo.applicationInfo.uid, mPackageInfo.packageName);
             for (final AppOpsState.AppOpEntry entry : entries) {
