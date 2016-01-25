@@ -37,11 +37,6 @@
                 android:targetClass="com.android.settings.SetFullBackupPassword" />
     </PreferenceScreen>
 
-    <PreferenceScreen
-        android:key="app_ops"
-        android:title="@string/app_ops_settings"
-        android:fragment="com.android.settings.applications.AppOpsSummary" />
-
     <SwitchPreference
         android:key="keep_screen_on"
         android:title="@string/keep_screen_on"
