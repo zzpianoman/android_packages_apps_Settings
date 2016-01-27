@@ -88,16 +88,16 @@ public class DisplayColor extends DialogPreference {
         String[] colorAdjustment = colorAdjustmentTemp == null ?
                 null : colorAdjustmentTemp.split(" ");
         if (colorAdjustment == null || colorAdjustment.length != 3) {
-            colorAdjustment = new String[] { "1.0", "1.0", "1.0" };
+            colorAdjustment = new String[] { "0.5", "0.5", "0.5" };
         }
         try {
             mOriginalColors[0] = Float.parseFloat(colorAdjustment[0]);
             mOriginalColors[1] = Float.parseFloat(colorAdjustment[1]);
             mOriginalColors[2] = Float.parseFloat(colorAdjustment[2]);
         } catch (NumberFormatException e) {
-            mOriginalColors[0] = 1.0f;
-            mOriginalColors[1] = 1.0f;
-            mOriginalColors[2] = 1.0f;
+            mOriginalColors[0] = 0.5f;
+            mOriginalColors[1] = 0.5f;
+            mOriginalColors[2] = 0.5f;
         }
 
         System.arraycopy(mOriginalColors, 0, mCurrentColors, 0, 3);
@@ -122,8 +122,8 @@ public class DisplayColor extends DialogPreference {
             @Override
             public void onClick(View v) {
                 for (int i = 0; i < mSeekBars.length; i++) {
-                    mSeekBars[i].mSeekBar.setProgressFloat(1.00f);
-                    mCurrentColors[i] = 1.0f;
+                    mSeekBars[i].mSeekBar.setProgressFloat(0.50f);
+                    mCurrentColors[i] = 0.5f;
                 }
                 updateColors(mCurrentColors);
             }
